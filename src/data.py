@@ -1,29 +1,189 @@
 from pathlib import Path
+import random
+import shutil
+import json
+from typing import Dict, List, Tuple
 
 import typer
+import torch
 from torch.utils.data import Dataset
+from PIL import Image
+import torchvision.transforms as transforms
 
 
 class MyDataset(Dataset):
-    """My custom dataset."""
+    """Dataset for Rice Image classification with 5 rice types."""
 
-    def __init__(self, data_path: Path) -> None:
-        self.data_path = data_path
+    def __init__(self, data_path: Path, transform=None) -> None:
+        """Initialize dataset from preprocessed splits.
+        
+        Args:
+            data_path: Path to split folder (e.g., processed/train)
+            transform: Optional torchvision transforms
+        """
+        self.data_path = Path(data_path)
+        if not self.data_path.exists():
+            raise FileNotFoundError(f"Data path not found: {self.data_path}")
+        
+        # Expected rice types
+        self.class_names = sorted(["Arborio", "Basmati", "Ipsala", "Jasmine", "Karacadag"])
+        self.class_to_idx = {cls: idx for idx, cls in enumerate(self.class_names)}
+        
+        # Collect all image files and their labels
+        self.samples: List[Tuple[Path, int]] = []
+        for cls_name in self.class_names:
+            cls_dir = self.data_path / cls_name
+            if not cls_dir.exists():
+                raise ValueError(f"Class folder not found: {cls_dir}")
+            
+            # Get all image files
+            image_files = [f for f in cls_dir.iterdir() if f.suffix.lower() in ['.jpg', '.jpeg', '.png']]
+            if not image_files:
+                raise ValueError(f"No image files found in {cls_dir}")
+            
+            # Add (path, label) tuples
+            label = self.class_to_idx[cls_name]
+            self.samples.extend([(img_path, label) for img_path in image_files])
+        
+        # Default transform: resize and normalize
+        if transform is None:
+            self.transform = transforms.Compose([
+                transforms.Resize((224, 224)),
+                transforms.ToTensor(),
+                transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+            ])
+        else:
+            self.transform = transform
 
     def __len__(self) -> int:
-        """Return the length of the dataset."""
+        """Return the total number of samples."""
+        return len(self.samples)
 
-    def __getitem__(self, index: int):
-        """Return a given sample from the dataset."""
+    def __getitem__(self, index: int) -> Tuple[torch.Tensor, int]:
+        """Return a sample (image, label) at the given index."""
+        img_path, label = self.samples[index]
+        image = Image.open(img_path).convert('RGB')
+        
+        if self.transform:
+            image = self.transform(image)
+        
+        return image, label
 
-    def preprocess(self, output_folder: Path) -> None:
-        """Preprocess the raw data and save it to the output folder."""
+
+class RicePreprocessor:
+    """Helper for preprocessing raw Rice Image Dataset into stratified splits."""
+
+    def __init__(self, data_path: Path) -> None:
+        self.data_path = Path(data_path)
+        if not self.data_path.exists():
+            raise FileNotFoundError(f"Data path not found: {self.data_path}")
+        
+        # Expected rice types
+        self.class_names = ["Arborio", "Basmati", "Ipsala", "Jasmine", "Karacadag"]
+        
+        # Collect file lists per class
+        self.files_by_class: Dict[str, List[Path]] = {}
+        for cls in self.class_names:
+            cls_dir = self.data_path / cls
+            if not cls_dir.exists():
+                raise ValueError(f"Expected class folder not found: {cls_dir}")
+            
+            files = [p for p in cls_dir.iterdir() if p.suffix.lower() in ['.jpg', '.jpeg', '.png']]
+            if not files:
+                raise ValueError(f"No image files found in class folder: {cls_dir}")
+            self.files_by_class[cls] = files
+
+    def preprocess(self, output_folder: Path, seed: int = 42) -> None:
+        """Create stratified 70/15/15 splits and copy files to output folder.
+
+        The output structure will be:
+            output_folder/
+              train/<class>/*
+              val/<class>/*
+              test/<class>/*
+        """
+        output_folder = Path(output_folder)
+        # Prepare split subfolders
+        split_names = ["train", "val", "test"]
+        for split in split_names:
+            for cls in self.class_names:
+                (output_folder / split / cls).mkdir(parents=True, exist_ok=True)
+
+        rng = random.Random(seed)
+
+        split_counts: Dict[str, Dict[str, int]] = {"train": {}, "val": {}, "test": {}}
+        split_files: Dict[str, Dict[str, List[str]]] = {"train": {}, "val": {}, "test": {}}
+
+        for cls, files in self.files_by_class.items():
+            # Shuffle deterministically
+            files = list(files)
+            rng.shuffle(files)
+
+            n = len(files)
+            n_train = int(round(0.70 * n))
+            n_val = int(round(0.15 * n))
+            n_test = n - n_train - n_val
+
+            train_files = files[:n_train]
+            val_files = files[n_train : n_train + n_val]
+            test_files = files[n_train + n_val :]
+
+            # Copy files into split directories
+            for src in train_files:
+                dst = output_folder / "train" / cls / src.name
+                shutil.copy2(src, dst)
+            for src in val_files:
+                dst = output_folder / "val" / cls / src.name
+                shutil.copy2(src, dst)
+            for src in test_files:
+                dst = output_folder / "test" / cls / src.name
+                shutil.copy2(src, dst)
+
+            # Track counts and file names for manifest
+            split_counts["train"][cls] = len(train_files)
+            split_counts["val"][cls] = len(val_files)
+            split_counts["test"][cls] = len(test_files)
+            split_files["train"][cls] = [f.name for f in train_files]
+            split_files["val"][cls] = [f.name for f in val_files]
+            split_files["test"][cls] = [f.name for f in test_files]
+
+        # Write manifest with counts and file lists
+        manifest = {
+            "classes": self.class_names,
+            "counts": split_counts,
+            "files": split_files,
+        }
+        manifest_path = output_folder / "split_manifest.json"
+        with manifest_path.open("w", encoding="utf-8") as f:
+            json.dump(manifest, f, indent=2)
+
+        # Print verification summary per class
+        print(f"Created stratified splits at {output_folder} (seed={seed}).")
+        for cls in self.class_names:
+            n_total = (
+                split_counts["train"][cls]
+                + split_counts["val"][cls]
+                + split_counts["test"][cls]
+            )
+            tr = split_counts["train"][cls] / n_total
+            vr = split_counts["val"][cls] / n_total
+            ter = split_counts["test"][cls] / n_total
+            print(
+                f"  {cls}: train={split_counts['train'][cls]} ({tr:.1%}), "
+                f"val={split_counts['val'][cls]} ({vr:.1%}), "
+                f"test={split_counts['test'][cls]} ({ter:.1%})"
+            )
+
 
 def preprocess(data_path: Path, output_folder: Path) -> None:
+    """CLI entry: preprocess raw rice images into 70/15/15 splits."""
     print("Preprocessing data...")
-    dataset = MyDataset(data_path)
-    dataset.preprocess(output_folder)
+    preprocessor = RicePreprocessor(Path(data_path))
+    preprocessor.preprocess(output_folder)
+    print(f"Done! Use MyDataset(Path('{output_folder}/train')) for training.")
 
 
 if __name__ == "__main__":
     typer.run(preprocess)
+
+
