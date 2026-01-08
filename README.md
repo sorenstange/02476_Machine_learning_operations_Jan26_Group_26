@@ -53,3 +53,8 @@ The directory structure of the project looks like this:
 Created using [mlops_template](https://github.com/SkafteNicki/mlops_template),
 a [cookiecutter template](https://github.com/cookiecutter/cookiecutter) for getting
 started with Machine Learning Operations (MLOps).
+
+
+## Project description
+
+In this project we seek to train and evaluate different image classifiers in order to classify different types of rice. Our project will use the *Rice Image Dataset* from *Kaggle* (https://www.kaggle.com/datasets/muratkokludataset/rice-image-dataset). This dataset contains 75.000 different 250x250 pixels greyscale images of 5 different grains of rice; namely: Arborio, Basmati, Ipsala, Jasmine & Karacadag. We are going to use PyTorch as well as PyTorch Lightning for defining and training our models. We will use the open-source library PyTorch Image Models (TIMM) in our project, by selecting soma pretrained model from this library, to find which model architecture/type is best suited for classification of rice. We will choose a ResNet and this will be compared to our own model, which probably will be based on a convolutional neural network.
