@@ -123,18 +123,13 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 1 fill here ---
+Group 26
 
 ### Question 2
 > **Enter the study number for each member in the group**
->
-> Example:
->
-> *sXXXXXX, sXXXXXX, sXXXXXX*
->
 > Answer:
 
---- question 2 fill here ---
+*s204206, s204229, s204248*
 
 ### Question 3
 > **Did you end up using any open-source frameworks/packages not covered in the course during your project? If so**
@@ -168,7 +163,8 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 4 fill here ---
+We used conda+pip for managin our dependencies. The list of dependencies was auto-generated using pip freeze > requirements.txt, in order to get a precise list of the python packages used and their versions for this project. 
+If a new team member were to join our project, they would simply have to create a new conda environement using 'conda create -n <project_name> python=3.12' and then run 'pip install -r requirements.txt'. After this they would have a complete working environment for this project.
 
 ### Question 5
 
