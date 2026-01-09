@@ -103,12 +103,7 @@ class RicePreprocessor:
               test/<class>/*
         """
         output_folder = Path(output_folder)
-        # Prepare split subfolders
-        split_names = ["train", "val", "test"]
-        for split in split_names:
-            for cls in self.class_names:
-                (output_folder / split / cls).mkdir(parents=True, exist_ok=True)
-
+        
         rng = random.Random(seed)
 
         split_counts: Dict[str, Dict[str, int]] = {"train": {}, "val": {}, "test": {}}
@@ -175,8 +170,18 @@ class RicePreprocessor:
             )
 
 
-def preprocess(data_path: Path, output_folder: Path) -> None:
+def preprocess(
+    data_path: Path = typer.Argument(..., help="Path to raw rice image dataset"),
+    output_folder: Path = typer.Option(
+        None, 
+        help="Path to output processed splits (default: data/processed)"
+    ),
+) -> None:
     """CLI entry: preprocess raw rice images into 70/15/15 splits."""
+    # Set default output folder if not provided
+    if output_folder is None:
+        output_folder = Path(__file__).parent.parent / "data" / "processed"
+    
     print("Preprocessing data...")
     preprocessor = RicePreprocessor(Path(data_path))
     preprocessor.preprocess(output_folder)
