@@ -6,52 +6,65 @@ from typing import Dict, List, Tuple
 
 import typer
 import torch
-from torch.utils.data import Dataset
+from torch.utils.data import Dataset, DataLoader
 from PIL import Image
 import torchvision.transforms as transforms
 
 
 class MyDataset(Dataset):
-    """Dataset for Rice Image classification with 5 rice types."""
+    """Dataset for Rice Image classification with 5 rice types.
 
-    def __init__(self, data_path: Path, transform=None) -> None:
+    Supports greyscale images (single channel) by passing `grayscale=True`.
+    """
+
+    def __init__(self, data_path: Path, transform=None, grayscale: bool = True) -> None:
         """Initialize dataset from preprocessed splits.
         
         Args:
-            data_path: Path to split folder (e.g., processed/train)
+            data_path: Path to split folder (e.g., data/train)
             transform: Optional torchvision transforms
+            grayscale: Whether to load images as grayscale (default: True)
         """
         self.data_path = Path(data_path)
         if not self.data_path.exists():
             raise FileNotFoundError(f"Data path not found: {self.data_path}")
-        
+
+        self.grayscale = grayscale
+
         # Expected rice types
         self.class_names = sorted(["Arborio", "Basmati", "Ipsala", "Jasmine", "Karacadag"])
         self.class_to_idx = {cls: idx for idx, cls in enumerate(self.class_names)}
-        
+
         # Collect all image files and their labels
         self.samples: List[Tuple[Path, int]] = []
         for cls_name in self.class_names:
             cls_dir = self.data_path / cls_name
             if not cls_dir.exists():
                 raise ValueError(f"Class folder not found: {cls_dir}")
-            
+
             # Get all image files
             image_files = [f for f in cls_dir.iterdir() if f.suffix.lower() in ['.jpg', '.jpeg', '.png']]
             if not image_files:
                 raise ValueError(f"No image files found in {cls_dir}")
-            
+
             # Add (path, label) tuples
             label = self.class_to_idx[cls_name]
             self.samples.extend([(img_path, label) for img_path in image_files])
-        
-        # Default transform: resize and normalize
+
+        # Default transform based on image type
         if transform is None:
-            self.transform = transforms.Compose([
-                transforms.Resize((224, 224)),
-                transforms.ToTensor(),
-                transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-            ])
+            if grayscale:
+                self.transform = transforms.Compose([
+                    transforms.Resize((224, 224)),
+                    transforms.ToTensor(),
+                    transforms.Normalize(mean=[0.5], std=[0.5])
+                ])
+            else:
+                self.transform = transforms.Compose([
+                    transforms.Resize((224, 224)),
+                    transforms.ToTensor(),
+                    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+                ])
         else:
             self.transform = transform
 
@@ -62,11 +75,15 @@ class MyDataset(Dataset):
     def __getitem__(self, index: int) -> Tuple[torch.Tensor, int]:
         """Return a sample (image, label) at the given index."""
         img_path, label = self.samples[index]
-        image = Image.open(img_path).convert('RGB')
-        
+
+        if self.grayscale:
+            image = Image.open(img_path).convert('L')
+        else:
+            image = Image.open(img_path).convert('RGB')
+
         if self.transform:
             image = self.transform(image)
-        
+
         return image, label
 
 
@@ -168,6 +185,48 @@ class RicePreprocessor:
                 f"val={split_counts['val'][cls]} ({vr:.1%}), "
                 f"test={split_counts['test'][cls]} ({ter:.1%})"
             )
+
+
+def load_train_data(batch_size: int, num_workers: int) -> DataLoader:
+    """Load training data from data/train into a DataLoader.
+
+    Args:
+        batch_size: Batch size for the DataLoader
+        num_workers: Number of workers for the DataLoader
+    Returns:
+        DataLoader containing training data
+    """
+    train_path = Path("data/train")
+    train_dataset = MyDataset(train_path, grayscale=True)
+    return DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers)
+
+
+def load_val_data(batch_size: int, num_workers: int) -> DataLoader:
+    """Load validation data from data/val into a DataLoader.
+
+    Args:
+        batch_size: Batch size for the DataLoader
+        num_workers: Number of workers for the DataLoader   
+    Returns:
+        DataLoader containing validation data
+    """
+    val_path = Path("data/val")
+    val_dataset = MyDataset(val_path, grayscale=True)
+    return DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers)
+
+
+def load_test_data(batch_size: int, num_workers: int) -> DataLoader:
+    """Load test data from data/test into a DataLoader.
+
+    Args:
+        batch_size: Batch size for the DataLoader
+        num_workers: Number of workers for the DataLoader
+    Returns:
+        DataLoader containing test data
+    """
+    test_path = Path("data/test")
+    test_dataset = MyDataset(test_path, grayscale=True)
+    return DataLoader(test_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers)
 
 
 def preprocess(

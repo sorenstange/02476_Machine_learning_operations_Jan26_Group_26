@@ -78,6 +78,7 @@ def load_parameters(cfg):
         "learning_rate" : cfg.hyperparameters.learning_rate,
         "epochs"        : cfg.hyperparameters.epochs,
         "batch_size"    : cfg.hyperparameters.batch_size,
+        "num_workers"   : cfg.hyperparameters.num_workers,
     }
     return parameters
 

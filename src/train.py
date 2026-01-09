@@ -25,11 +25,11 @@ def train(cfg) -> None:
     )
 
     # Load datasets
-    train_set = load_train_data(parameters['batch_size'])
-    val_set = load_val_data(parameters['batch_size'])
+    train_set = load_train_data(parameters['batch_size'], num_workers=parameters['num_workers'])
+    val_set = load_val_data(parameters['batch_size'], num_workers=parameters['num_workers'])
     
     print(f"Train samples: {len(train_set)}, Val samples: {len(val_set)}")
-    print(f"Classes: {train_set.class_names}")
+    #print(f"Classes: {train_set.targets.unique().tolist()}")
 
     model = CNN_Model(parameters)
     trainer = Trainer(max_epochs=parameters["epochs"], accelerator="auto")
@@ -44,4 +44,5 @@ def train(cfg) -> None:
 
 
 if __name__ == "__main__":
-    typer.run(train)
+    #typer.run(train)
+    train()
