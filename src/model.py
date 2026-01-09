@@ -62,11 +62,25 @@ class CNN_Model(LightningModule):
         loss = nn.CrossEntropyLoss()(outputs, labels)
         self.log('train_loss', loss)
         return loss
+
+    def validation_step(self, batch, batch_idx):
+        """Validation step for LightningModule: compute loss and accuracy."""
+        images, labels = batch
+        outputs = self(images)
+        loss = nn.CrossEntropyLoss()(outputs, labels)
+        preds = torch.argmax(outputs, dim=1)
+        acc = (preds == labels).float().mean()
+        # Log metrics; accumulate across epoch
+        self.log('val_loss', loss, prog_bar=True, on_epoch=True)
+        self.log('val_acc', acc, prog_bar=True, on_epoch=True)
+        return {'val_loss': loss, 'val_acc': acc}
     
     def configure_optimizers(self):
         """Configure optimizers. Needed for LightningModule."""
         optimizer = optim.Adam(self.parameters(), lr=self.learning_rate)
         return optimizer
+    
+    
 
 def load_parameters(cfg):
     parameters = {
