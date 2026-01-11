@@ -1,0 +1,14 @@
+data/
+models/
+outputs/
+.git
+.venv
+__pycache__/
+*.pyc
+*.pkl
+*.pt
+*.pth
+venv/
+*.egg-info
+dist/
+build/

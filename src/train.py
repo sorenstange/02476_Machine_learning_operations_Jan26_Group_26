@@ -4,8 +4,8 @@ import typer
 import wandb
 import hydra
 from pytorch_lightning import Trainer
-from data import load_train_data, load_val_data
-from model import CNN_Model, load_parameters
+from .data import load_train_data, load_val_data
+from .model import CNN_Model, load_parameters
 
 @hydra.main(
         config_path="../configs",
