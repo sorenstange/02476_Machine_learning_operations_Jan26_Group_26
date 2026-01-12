@@ -110,7 +110,7 @@ class RicePreprocessor:
                 raise ValueError(f"No image files found in class folder: {cls_dir}")
             self.files_by_class[cls] = files
 
-    def preprocess(self, output_folder: Path, seed: int = 42, fraction: float = 0.1) -> None:
+    def preprocess(self, output_folder: Path, seed: int = 42, fraction: float = 1.0) -> None:
         """Create stratified 70/15/15 splits and copy files to output folder.
 
         Args:
@@ -264,7 +264,7 @@ def preprocess(
         help="Path to output processed splits (default: data at project root)"
     ),
     fraction: float = typer.Option(
-        0.1,
+        1.0,
         help="Fraction of dataset to process (0.0 to 1.0). Use smaller values for testing."
     ),
 ) -> None:
