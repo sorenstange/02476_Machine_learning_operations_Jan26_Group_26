@@ -33,7 +33,7 @@ def dev_requirements(ctx: Context) -> None:
 @task
 def preprocess_data(ctx: Context) -> None:
     """Preprocess data."""
-    ctx.run(f"python src/data.py data/raw data/processed", echo=True, pty=not WINDOWS)
+    ctx.run(f"python src/data.py Rice_Image_Dataset", echo=True, pty=not WINDOWS)
 
 @task
 def train(ctx: Context) -> None:
