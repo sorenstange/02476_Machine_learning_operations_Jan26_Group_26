@@ -25,5 +25,5 @@ wheel==0.45.1
 yarl==1.22.0
 hydra-core
 invoke==2.2.1
-torch==2.9.1+cu126
-torchvision==0.24.1+cu126
+torch==2.9.1
+torchvision==0.24.1
