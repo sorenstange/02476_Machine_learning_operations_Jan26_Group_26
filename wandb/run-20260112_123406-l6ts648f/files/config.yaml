@@ -1,0 +1,67 @@
+_wandb:
+    value:
+        cli_version: 0.23.1
+        e:
+            k4fbdi13vjomnxergl3kd16d1ubakiu0:
+                codePath: src\train.py
+                codePathLocal: src\train.py
+                cpu_count: 6
+                cpu_count_logical: 6
+                cudaVersion: "13.0"
+                disk:
+                    /:
+                        total: "479192481792"
+                        used: "344175484928"
+                email: s204229@student.dtu.dk
+                executable: C:\Users\soere\anaconda3\envs\02476\python.exe
+                git:
+                    commit: 1ac5b38157d18ea05a4df9c4600ce686e777db94
+                    remote: https://github.com/sorenstange/02476_Machine_learning_operations_Jan26_Group_26.git
+                gpu: NVIDIA GeForce GTX 1660 SUPER
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Turing
+                      cudaCores: 1408
+                      memoryTotal: "6442450944"
+                      name: NVIDIA GeForce GTX 1660 SUPER
+                      uuid: GPU-ad865b98-2c46-5d95-ac12-59ab78f4c4b6
+                host: DESKTOP-KDFK9EE
+                memory:
+                    total: "17086140416"
+                os: Windows-11-10.0.26200-SP0
+                program: C:\Users\soere\OneDrive\Skrivebord\02476_Machine_learning_operations_Jan26_Group_26\src\train.py
+                python: CPython 3.12.12
+                root: C:\Users\soere\OneDrive\Skrivebord\02476_Machine_learning_operations_Jan26_Group_26
+                startedAt: "2026-01-12T11:34:06.814138Z"
+                writerId: k4fbdi13vjomnxergl3kd16d1ubakiu0
+        m: []
+        python_version: 3.12.12
+        t:
+            "1":
+                - 1
+                - 9
+                - 41
+                - 50
+                - 103
+                - 106
+            "2":
+                - 1
+                - 9
+                - 41
+                - 50
+                - 103
+                - 106
+            "3":
+                - 16
+            "4": 3.12.12
+            "5": 0.23.1
+            "8":
+                - 3
+            "12": 0.23.1
+            "13": windows-amd64
+batch_size:
+    value: 64
+epochs:
+    value: 5
+lr:
+    value: 0.0001

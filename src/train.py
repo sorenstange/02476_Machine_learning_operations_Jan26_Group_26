@@ -35,7 +35,18 @@ def train(cfg) -> None:
     #print(f"Classes: {train_set.targets.unique().tolist()}")
 
     model = CNN_Model(parameters)
-    trainer = Trainer(max_epochs=parameters["epochs"], accelerator="auto", logger=wandb_logger)
+    
+    # Check for GPU availability
+    if torch.cuda.is_available():
+        accelerator = "gpu"
+        devices = 1
+        print("Using GPU for training")
+    else:
+        accelerator = "cpu"
+        devices = None
+        print("Using CPU for training")
+    
+    trainer = Trainer(max_epochs=parameters["epochs"], accelerator=accelerator, devices=devices, logger=wandb_logger)
     trainer.fit(model, train_dataloaders=train_set, val_dataloaders=val_set)
     
     print("Training complete.")
@@ -45,7 +56,7 @@ def train(cfg) -> None:
     torch.save(model.state_dict(), model_path)
     print(f"Model saved to {model_path}")
 
-
+#This comment is used for testing of CI in GitHub
 if __name__ == "__main__":
     #typer.run(train)
     train()

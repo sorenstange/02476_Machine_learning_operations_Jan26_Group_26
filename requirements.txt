@@ -71,3 +71,4 @@ uvicorn==0.34.2
 wandb==0.23.1
 wheel==0.45.1
 yarl==1.22.0
+hydra-core
