@@ -4,6 +4,7 @@ import typer
 import wandb
 import hydra
 from pytorch_lightning import Trainer
+from lightning.pytorch.loggers import WandbLogger
 from data import load_train_data, load_val_data
 from model import CNN_Model, load_parameters
 
@@ -24,6 +25,8 @@ def train(cfg) -> None:
         config={"lr": parameters["learning_rate"], "batch_size": parameters["batch_size"], "epochs": parameters["epochs"]},
     )
 
+    wandb_logger = WandbLogger(project="rice_classifier")
+
     # Load datasets
     train_set = load_train_data(parameters['batch_size'], num_workers=parameters['num_workers'])
     val_set = load_val_data(parameters['batch_size'], num_workers=parameters['num_workers'])
@@ -32,7 +35,7 @@ def train(cfg) -> None:
     #print(f"Classes: {train_set.targets.unique().tolist()}")
 
     model = CNN_Model(parameters)
-    trainer = Trainer(max_epochs=parameters["epochs"], accelerator="auto")
+    trainer = Trainer(max_epochs=parameters["epochs"], accelerator="auto", logger=wandb_logger)
     trainer.fit(model, train_dataloaders=train_set, val_dataloaders=val_set)
     
     print("Training complete.")

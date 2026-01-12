@@ -15,6 +15,7 @@ class CNN_Model(LightningModule):
         ) -> None:
         """Initialize CNN model."""
         super().__init__()
+        self.save_hyperparameters()
         self.learning_rate = parameters["learning_rate"]
         layers = []
         in_channels = parameters["input_channels"]

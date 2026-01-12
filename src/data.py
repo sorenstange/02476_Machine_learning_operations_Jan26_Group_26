@@ -110,8 +110,13 @@ class RicePreprocessor:
                 raise ValueError(f"No image files found in class folder: {cls_dir}")
             self.files_by_class[cls] = files
 
-    def preprocess(self, output_folder: Path, seed: int = 42) -> None:
+    def preprocess(self, output_folder: Path, seed: int = 42, fraction: float = 0.1) -> None:
         """Create stratified 70/15/15 splits and copy files to output folder.
+
+        Args:
+            output_folder: Path to output directory for splits
+            seed: Random seed for reproducibility
+            fraction: Fraction of dataset to use (0.0 to 1.0). Default 1.0 uses all data.
 
         The output structure will be:
             output_folder/
@@ -120,6 +125,21 @@ class RicePreprocessor:
               test/<class>/*
         """
         output_folder = Path(output_folder)
+        
+        if not 0.0 < fraction <= 1.0:
+            raise ValueError(f"Fraction must be between 0.0 and 1.0, got {fraction}")
+        
+        # Check if output folder exists
+        if output_folder.exists():
+            raise FileExistsError(
+                f"Output folder already exists: {output_folder}\n"
+                f"Please remove it manually before running preprocessing to avoid mixing old and new data."
+            )
+        
+        # Create output directories
+        for split in ["train", "val", "test"]:
+            for cls in self.class_names:
+                (output_folder / split / cls).mkdir(parents=True, exist_ok=True)
         
         rng = random.Random(seed)
 
@@ -130,6 +150,11 @@ class RicePreprocessor:
             # Shuffle deterministically
             files = list(files)
             rng.shuffle(files)
+            
+            # Sample only the specified fraction
+            if fraction < 1.0:
+                n_sample = max(1, int(len(files) * fraction))
+                files = files[:n_sample]
 
             n = len(files)
             n_train = int(round(0.70 * n))
@@ -170,7 +195,10 @@ class RicePreprocessor:
             json.dump(manifest, f, indent=2)
 
         # Print verification summary per class
-        print(f"Created stratified splits at {output_folder} (seed={seed}).")
+        if fraction < 1.0:
+            print(f"Created stratified splits at {output_folder} (seed={seed}, fraction={fraction:.2%}).")
+        else:
+            print(f"Created stratified splits at {output_folder} (seed={seed}).")
         for cls in self.class_names:
             n_total = (
                 split_counts["train"][cls]
@@ -233,21 +261,23 @@ def preprocess(
     data_path: Path = typer.Argument(..., help="Path to raw rice image dataset"),
     output_folder: Path = typer.Option(
         None, 
-        help="Path to output processed splits (default: data/processed)"
+        help="Path to output processed splits (default: data at project root)"
+    ),
+    fraction: float = typer.Option(
+        0.1,
+        help="Fraction of dataset to process (0.0 to 1.0). Use smaller values for testing."
     ),
 ) -> None:
     """CLI entry: preprocess raw rice images into 70/15/15 splits."""
     # Set default output folder if not provided
     if output_folder is None:
-        output_folder = Path(__file__).parent.parent / "data" / "processed"
+        output_folder = Path(__file__).parent.parent / "data"
     
     print("Preprocessing data...")
     preprocessor = RicePreprocessor(Path(data_path))
-    preprocessor.preprocess(output_folder)
+    preprocessor.preprocess(output_folder, fraction=fraction)
     print(f"Done! Use MyDataset(Path('{output_folder}/train')) for training.")
 
 
 if __name__ == "__main__":
     typer.run(preprocess)
-
-
