@@ -1,7 +1,7 @@
 from torch.utils.data import Dataset
 import torch
 from pathlib import Path
-from data import MyDataset, load_train_data, load_val_data, load_test_data
+from src.data import MyDataset, load_train_data, load_val_data, load_test_data
 
 def test_my_dataset():
     """Test the MyDataset class."""

@@ -1,5 +1,5 @@
 import torch
-from model import CNN_Model
+from src.model import CNN_Model
 
 def test_cnn_model_initialization():
     """Test CNN_Model initialization."""
