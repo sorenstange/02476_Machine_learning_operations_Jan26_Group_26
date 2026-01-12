@@ -26,3 +26,4 @@ wandb==0.23.1
 wheel==0.45.1
 yarl==1.22.0
 hydra-core
+invoke==2.2.1
