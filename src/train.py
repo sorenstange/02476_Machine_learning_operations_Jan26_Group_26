@@ -58,5 +58,4 @@ def train(cfg) -> None:
 
 #This comment is used for testing of CI in GitHub
 if __name__ == "__main__":
-    #typer.run(train)
     train()

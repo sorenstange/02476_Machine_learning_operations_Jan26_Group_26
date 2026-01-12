@@ -1,0 +1,43 @@
+{
+  "os":  "Windows-11-10.0.26200-SP0",
+  "python":  "CPython 3.12.12",
+  "startedAt":  "2026-01-12T12:46:44.354450Z",
+  "args":  [
+    "hyperparameters.epochs=10"
+  ],
+  "program":  "C:\\Users\\soere\\OneDrive\\Skrivebord\\02476_Machine_learning_operations_Jan26_Group_26\\src\\train.py",
+  "codePath":  "src\\train.py",
+  "codePathLocal":  "src\\train.py",
+  "git":  {
+    "remote":  "https://github.com/sorenstange/02476_Machine_learning_operations_Jan26_Group_26.git",
+    "commit":  "baa9b346e97e656ea9a169ff12c33125f9db1691"
+  },
+  "email":  "s204229@student.dtu.dk",
+  "root":  "C:\\Users\\soere\\OneDrive\\Skrivebord\\02476_Machine_learning_operations_Jan26_Group_26",
+  "host":  "DESKTOP-KDFK9EE",
+  "executable":  "C:\\Users\\soere\\anaconda3\\envs\\02476\\python.exe",
+  "cpu_count":  6,
+  "cpu_count_logical":  6,
+  "gpu":  "NVIDIA GeForce GTX 1660 SUPER",
+  "gpu_count":  1,
+  "disk":  {
+    "/":  {
+      "total":  "479192481792",
+      "used":  "355335602176"
+    }
+  },
+  "memory":  {
+    "total":  "17086140416"
+  },
+  "gpu_nvidia":  [
+    {
+      "name":  "NVIDIA GeForce GTX 1660 SUPER",
+      "memoryTotal":  "6442450944",
+      "cudaCores":  1408,
+      "architecture":  "Turing",
+      "uuid":  "GPU-ad865b98-2c46-5d95-ac12-59ab78f4c4b6"
+    }
+  ],
+  "cudaVersion":  "13.0",
+  "writerId":  "w3acemhol30a3jhxjqnvppf095jyr97f"
+}
