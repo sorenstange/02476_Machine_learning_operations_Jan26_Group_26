@@ -1,6 +1,7 @@
 from pathlib import Path
 import torch
 import typer
+import wandb
 import hydra
 from data import load_test_data
 from model import CNN_Model, load_parameters
@@ -21,6 +22,13 @@ def evaluate(cfg) -> None:
     
     if not model_checkpoint.exists():
         raise FileNotFoundError(f"Model checkpoint not found: {model_checkpoint}")
+    
+    # Initialize wandb
+    wandb.init(
+        project="rice_classifier",
+        job_type="evaluation",
+        config={"batch_size": parameters["batch_size"]},
+    )
     
     print("Evaluating rice classifier")
     print(f"Model checkpoint: {model_checkpoint}")
@@ -46,6 +54,15 @@ def evaluate(cfg) -> None:
     
     accuracy = correct / total
     print(f"Test accuracy: {accuracy:.4f} ({correct}/{total})")
+    
+    # Log to wandb
+    wandb.log({
+        "test_accuracy": accuracy,
+        "test_correct": correct,
+        "test_total": total
+    })
+    
+    wandb.finish()
 
 
 if __name__ == "__main__":
