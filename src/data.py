@@ -226,7 +226,7 @@ def load_train_data(batch_size: int, num_workers: int) -> DataLoader:
     """
     train_path = Path("data/train")
     train_dataset = MyDataset(train_path, grayscale=True)
-    return DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers)
+    return DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers, persistent_workers=True)
 
 
 def load_val_data(batch_size: int, num_workers: int) -> DataLoader:
@@ -240,7 +240,7 @@ def load_val_data(batch_size: int, num_workers: int) -> DataLoader:
     """
     val_path = Path("data/val")
     val_dataset = MyDataset(val_path, grayscale=True)
-    return DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers)
+    return DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers, persistent_workers=True)
 
 
 def load_test_data(batch_size: int, num_workers: int) -> DataLoader:
