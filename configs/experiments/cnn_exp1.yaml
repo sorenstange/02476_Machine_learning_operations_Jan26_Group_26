@@ -1,7 +1,6 @@
 model_parameters:
   model_name: custom_cnn
   parameters:
-    input_size: [224, 224]
     input_channels: 1
     conv_layers: [16, 32, 64, 128]
     fc_layers: [256, 128]
