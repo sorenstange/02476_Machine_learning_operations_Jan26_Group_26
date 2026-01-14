@@ -168,14 +168,12 @@ def load_model(cfg) -> LightningModule:
 
     return model
 
-import logging
-log = logging.getLogger(__name__)
-
-@hydra.main(config_path="../configs", config_name="config", version_base=None)
-def main(cfg) -> None:
-    # Access the experiment configuration
-    experiment_name = cfg.experiment
-    log.info(f"Running experiment: {experiment_name}")
+@hydra.main(
+        config_path="../configs",
+        config_name="config",
+        version_base=None,
+        )
+def main(cfg):
     model = load_model(cfg)
     parameters = load_parameters(cfg)
 
