@@ -7,7 +7,7 @@ from pytorch_lightning import Trainer
 from lightning.pytorch.loggers import WandbLogger
 from lightning.pytorch.callbacks import Callback, ModelCheckpoint
 from data import load_train_data, load_val_data
-from model import CNN_Model, load_parameters
+from model import load_model, load_parameters
 
 class WandbArtifactCallback(Callback):
     """Callback that logs the current best checkpoint from a ModelCheckpoint callback to W&B.
@@ -57,17 +57,18 @@ class WandbArtifactCallback(Callback):
             # Update last logged to avoid duplicate uploads
             self._last_logged_best = best_path
 
-@hydra.main(
-        config_path="../configs",
-        config_name="config",
-        version_base=None,
-        )
+import logging
+log = logging.getLogger(__name__)
+
+@hydra.main(config_path="../configs", config_name="config", version_base=None)
 def train(cfg) -> None: 
     """Train a model on Rice Image Dataset."""
-
+    log.info("Training rice classifier")
     parameters = load_parameters(cfg)
-    print("Training rice classifier")
-    print(f"learning rate = {parameters['learning_rate']}, batch size = {parameters['batch_size']=}, epochs = {parameters['epochs']=}")
+    log.info(f"learning rate = {parameters['learning_rate']}, batch size = {parameters['batch_size']=}, epochs = {parameters['epochs']=}")
+    
+    
+    model = load_model(cfg)
     
     wandb.init(
         project="rice_classifier",
@@ -97,8 +98,6 @@ def train(cfg) -> None:
     
     print(f"Train samples: {len(train_set)}, Val samples: {len(val_set)}")
     #print(f"Classes: {train_set.targets.unique().tolist()}")
-
-    model = CNN_Model(parameters)
     
     # Check for GPU availability
     if torch.cuda.is_available():
@@ -130,7 +129,7 @@ def train(cfg) -> None:
             break
 
     artifact = wandb.Artifact(
-        name="rice_classifier_model",
+        name=parameters["model_name"] + 'rice_classifier' + "_final",
         type="model",
         metadata={"epochs": parameters["epochs"], "lr": parameters["learning_rate"], "batch_size": parameters["batch_size"]}
     )

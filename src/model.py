@@ -90,6 +90,7 @@ class LitResNet18(LightningModule):
     def __init__(self, parameters):
         super().__init__()
         self.save_hyperparameters()
+        self.learning_rate = parameters["learning_rate"]
 
         self.model = timm.create_model(
             parameters['model_name'],
@@ -134,23 +135,23 @@ class LitResNet18(LightningModule):
 
 def load_parameters(cfg):
     parameters = {
-        "learning_rate" : cfg.hyperparameters.learning_rate,
-        "epochs"        : cfg.hyperparameters.epochs,
-        "batch_size"    : cfg.hyperparameters.batch_size,
-        "num_workers"   : cfg.hyperparameters.num_workers,
+        "learning_rate" : cfg.training_parameters.learning_rate,
+        "epochs"        : cfg.training_parameters.epochs,
+        "batch_size"    : cfg.training_parameters.batch_size,
+        "num_workers"   : cfg.training_parameters.num_workers,
         "input_size"    : cfg.data_parameters.augmentation.shape,
         "input_channels": cfg.data_parameters.channels,
         "output_dim"    : cfg.data_parameters.num_classes,
     }
-    model_name = cfg.model_parameters.model_name
+    model_name = cfg.experiment.model_parameters.model_name
     parameters["model_name"] = model_name
 
     if model_name == 'custom_cnn':
-        parameters["conv_layers"] = cfg.model_parameters.parameters.conv_layers
-        parameters["fc_layers"] = cfg.model_parameters.parameters.fc_layers
+        parameters["conv_layers"] = cfg.experiment.model_parameters.parameters.conv_layers
+        parameters["fc_layers"] = cfg.experiment.model_parameters.parameters.fc_layers
     else:
         try:
-            parameters['pretrained'] = cfg.model_parameters.pretrained
+            parameters['pretrained'] = cfg.experiment.model_parameters.pretrained
         except:
             parameters['pretrained'] = False
 
@@ -167,23 +168,25 @@ def load_model(cfg) -> LightningModule:
 
     return model
 
-@hydra.main(
-        config_path="../configs",
-        config_name="config",
-        version_base=None,
-        )
-def main(cfg):
+import logging
+log = logging.getLogger(__name__)
+
+@hydra.main(config_path="../configs", config_name="config", version_base=None)
+def main(cfg) -> None:
+    # Access the experiment configuration
+    experiment_name = cfg.experiment
+    log.info(f"Running experiment: {experiment_name}")
     model = load_model(cfg)
     parameters = load_parameters(cfg)
 
-    print(f"Model architecture: {model}")
-    print(f"Number of parameters: {sum(p.numel() for p in model.parameters())}")
+    log.info(f"Model architecture: {model}")
+    log.info(f"Number of parameters: {sum(p.numel() for p in model.parameters())}")
 
     # Test with grayscale rice image dimensions
     dummy_input = torch.randn(1, parameters["input_channels"], parameters["input_size"][0], parameters["input_size"][1])
     output = model(dummy_input)
-    print(f"Input shape: {dummy_input.shape}")
-    print(f"Output shape: {output.shape}")
+    log.info(f"Input shape: {dummy_input.shape}")
+    log.info(f"Output shape: {output.shape}")
 
 if __name__ == "__main__":
     main()

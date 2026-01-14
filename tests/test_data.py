@@ -1,11 +1,10 @@
 from torch.utils.data import Dataset
 import torch
-from pathlib import Path
-from src.data import MyDataset, load_train_data, load_val_data, load_test_data
+from src.data import RiceDataset, load_train_data, load_val_data, load_test_data
 
 def test_my_dataset():
-    """Test the MyDataset class."""
-    dataset = MyDataset(Path("Rice_Image_Dataset"))
+    """Test the RiceDataset class."""
+    dataset = RiceDataset()
     assert isinstance(dataset, Dataset)
 
 def test_load_train_data():
