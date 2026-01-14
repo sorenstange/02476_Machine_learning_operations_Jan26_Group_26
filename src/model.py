@@ -4,7 +4,8 @@ from pytorch_lightning import LightningModule
 from torch import nn, optim
 
 import hydra
-
+import timm
+from torchmetrics.classification import Accuracy
 
 class CNN_Model(LightningModule):
     """CNN model for rice classification (5 classes, grayscale images)."""
@@ -85,8 +86,8 @@ class CNN_Model(LightningModule):
         return optimizer
     
 
-class LitResNet18(pl.LightningModule):
-    def __init__(self, paramters):
+class LitResNet18(LightningModule):
+    def __init__(self, parameters):
         super().__init__()
         self.save_hyperparameters()
 
@@ -98,8 +99,8 @@ class LitResNet18(pl.LightningModule):
         )
 
         self.criterion = nn.CrossEntropyLoss()
-        self.train_acc = Accuracy(task="multiclass", num_classes=num_classes)
-        self.val_acc = Accuracy(task="multiclass", num_classes=num_classes)
+        self.train_acc = Accuracy(task="multiclass", num_classes=parameters["output_dim"])
+        self.val_acc = Accuracy(task="multiclass", num_classes=parameters["output_dim"])
 
     def forward(self, x):
         return self.model(x)
