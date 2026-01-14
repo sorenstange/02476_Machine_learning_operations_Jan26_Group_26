@@ -159,7 +159,7 @@ Group 26
 >
 > Answer:
 
---- question 3 fill here ---
+--- question 3 fill here --
 
 ## Coding environment
 
@@ -196,7 +196,7 @@ If a new team member were to join our project, they would simply have to create 
 >
 > Answer:
 
---- question 5 fill here ---
+From the cookiecutter template we have filled out the tests , src, models and reports folder. We have removed the ... folder because we did not use any ... in our project. We have added a data folder that contains the preproccesed data fit into a train, test and val folder for splitting our dataset. We have added a ... folder that contains ... to do ....
 
 ### Question 6
 
@@ -260,7 +260,7 @@ If a new team member were to join our project, they would simply have to create 
 >
 > Answer:
 
---- question 9 fill here ---
+We made use of both branches and PRs in our project. In our group, each member had a branch that they worked on in addition to the main branch. To merge code we made a merge request directly on the github webrowser instead of using the terminal. At times, we also simply agreed to push certain parts of code into main directly because we felt it was easier instead of others having to pull from other branches than their own.
 
 ### Question 10
 
