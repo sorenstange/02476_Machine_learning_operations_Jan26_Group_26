@@ -79,6 +79,7 @@ class CNN_Model(LightningModule):
         acc = self.val_acc(logits, y)
         self.log("val_loss", loss, prog_bar=True)
         self.log("val_acc", acc, prog_bar=True)
+        return {'val_loss': loss, 'val_acc': acc}
     
     def configure_optimizers(self):
         """Configure optimizers. Needed for LightningModule."""
@@ -125,6 +126,7 @@ class LitResNet18(LightningModule):
         acc = self.val_acc(logits, y)
         self.log("val_loss", loss, prog_bar=True)
         self.log("val_acc", acc, prog_bar=True)
+        return {'val_loss': loss, 'val_acc': acc}
 
     def configure_optimizers(self):
         """Configure optimizers. Needed for LightningModule."""
