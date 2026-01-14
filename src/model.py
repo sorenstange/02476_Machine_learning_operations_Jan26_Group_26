@@ -173,6 +173,7 @@ def load_model(cfg) -> LightningModule:
         )
 def main(cfg):
     model = load_model(cfg)
+    parameters = load_parameters(cfg)
 
     print(f"Model architecture: {model}")
     print(f"Number of parameters: {sum(p.numel() for p in model.parameters())}")
