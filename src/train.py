@@ -1,6 +1,5 @@
 from pathlib import Path
 import torch
-import typer
 import wandb
 import hydra
 from hydra.utils import get_original_cwd

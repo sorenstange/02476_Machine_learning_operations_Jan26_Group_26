@@ -47,7 +47,10 @@ class CNN_Model(LightningModule):
 
         classifier_layers.append(nn.Linear(in_features, parameters["output_dim"]))
         self.classifier = nn.Sequential(*classifier_layers)
-        
+
+        self.criterion = nn.CrossEntropyLoss()
+        self.train_acc = Accuracy(task="multiclass", num_classes=parameters["output_dim"])
+        self.val_acc = Accuracy(task="multiclass", num_classes=parameters["output_dim"])
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """Forward pass."""
@@ -57,45 +60,111 @@ class CNN_Model(LightningModule):
         return x
     
     def training_step(self, batch, batch_idx):
-        """Training step. Needed for LightningModule."""
-        images, labels = batch
-        outputs = self(images)
-        loss = nn.CrossEntropyLoss()(outputs, labels)
-        self.log('train_loss', loss)
+        x, y = batch
+        logits = self(x)
+        loss = self.criterion(logits, y)
+
+        acc = self.train_acc(logits, y)
+        self.log("train_loss", loss, prog_bar=True)
+        self.log("train_acc", acc, prog_bar=True)
+
         return loss
 
     def validation_step(self, batch, batch_idx):
-        """Validation step for LightningModule: compute loss and accuracy."""
-        images, labels = batch
-        outputs = self(images)
-        loss = nn.CrossEntropyLoss()(outputs, labels)
-        preds = torch.argmax(outputs, dim=1)
-        acc = (preds == labels).float().mean()
-        # Log metrics; accumulate across epoch
-        self.log('val_loss', loss, prog_bar=True, on_epoch=True)
-        self.log('val_acc', acc, prog_bar=True, on_epoch=True)
-        return {'val_loss': loss, 'val_acc': acc}
+        x, y = batch
+        logits = self(x)
+        loss = self.criterion(logits, y)
+
+        acc = self.val_acc(logits, y)
+        self.log("val_loss", loss, prog_bar=True)
+        self.log("val_acc", acc, prog_bar=True)
     
     def configure_optimizers(self):
         """Configure optimizers. Needed for LightningModule."""
         optimizer = optim.Adam(self.parameters(), lr=self.learning_rate)
         return optimizer
     
-    
+
+class LitResNet18(pl.LightningModule):
+    def __init__(self, paramters):
+        super().__init__()
+        self.save_hyperparameters()
+
+        self.model = timm.create_model(
+            parameters['model_name'],
+            pretrained=True,
+            in_chans=parameters['input_channels'],
+            num_classes=parameters['output_dim']
+        )
+
+        self.criterion = nn.CrossEntropyLoss()
+        self.train_acc = Accuracy(task="multiclass", num_classes=num_classes)
+        self.val_acc = Accuracy(task="multiclass", num_classes=num_classes)
+
+    def forward(self, x):
+        return self.model(x)
+
+    def training_step(self, batch, batch_idx):
+        x, y = batch
+        logits = self(x)
+        loss = self.criterion(logits, y)
+
+        acc = self.train_acc(logits, y)
+        self.log("train_loss", loss, prog_bar=True)
+        self.log("train_acc", acc, prog_bar=True)
+
+        return loss
+
+    def validation_step(self, batch, batch_idx):
+        x, y = batch
+        logits = self(x)
+        loss = self.criterion(logits, y)
+
+        acc = self.val_acc(logits, y)
+        self.log("val_loss", loss, prog_bar=True)
+        self.log("val_acc", acc, prog_bar=True)
+
+    def configure_optimizers(self):
+        """Configure optimizers. Needed for LightningModule."""
+        optimizer = optim.Adam(self.parameters(), lr=self.learning_rate)
+        return optimizer
+
+
 
 def load_parameters(cfg):
     parameters = {
-        "input_size"    : cfg.model_parameters.input_size,
-        "input_channels": cfg.model_parameters.input_channels,
-        "conv_layers"   : cfg.model_parameters.conv_layers,
-        "fc_layers"     : cfg.model_parameters.fc_layers,
-        "output_dim"    : cfg.model_parameters.output_dim,
         "learning_rate" : cfg.hyperparameters.learning_rate,
         "epochs"        : cfg.hyperparameters.epochs,
         "batch_size"    : cfg.hyperparameters.batch_size,
         "num_workers"   : cfg.hyperparameters.num_workers,
+        "input_size"    : cfg.data_parameters.augmentation.shape,
+        "input_channels": cfg.data_parameters.channels,
+        "output_dim"    : cfg.data_parameters.num_classes,
     }
+    model_name = cfg.model_parameters.model_name
+    parameters["model_name"] = model_name
+
+    if model_name == 'custom_cnn':
+        parameters["conv_layers"] = cfg.model_parameters.parameters.conv_layers
+        parameters["fc_layers"] = cfg.model_parameters.parameters.fc_layers
+    else:
+        try:
+            parameters['pretrained'] = cfg.model_parameters.pretrained
+        except:
+            parameters['pretrained'] = False
+
     return parameters
+
+def load_model(cfg) -> LightningModule:
+    parameters = load_parameters(cfg)
+    model_name = parameters['model_name']
+
+    if model_name == 'custom_cnn':
+        model = CNN_Model(parameters)
+    else:
+        model = LitResNet18(parameters)
+
+    return model
 
 @hydra.main(
         config_path="../configs",
@@ -103,11 +172,8 @@ def load_parameters(cfg):
         version_base=None,
         )
 def main(cfg):
-    parameters = load_parameters(cfg)
+    model = load_model(cfg)
 
-    model = CNN_Model(
-        parameters,
-    )
     print(f"Model architecture: {model}")
     print(f"Number of parameters: {sum(p.numel() for p in model.parameters())}")
 
