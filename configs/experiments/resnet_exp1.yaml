@@ -1,0 +1,5 @@
+model_parameters:
+  model_name: resnet18
+  parameters:
+    pretrained: true
+    output_dim: 5
