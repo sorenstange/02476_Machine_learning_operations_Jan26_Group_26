@@ -168,6 +168,9 @@ def load_model(cfg) -> LightningModule:
 
     return model
 
+import logging
+log = logging.getLogger(__name__)
+
 @hydra.main(
         config_path="../configs",
         config_name="config",
