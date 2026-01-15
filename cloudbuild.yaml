@@ -1,0 +1,19 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Build container image'
+  args: [
+    'build',
+    '.',
+    '-t',
+    'europe-north2-docker.pkg.dev/robust-charge-484208-t4/m21-container-registry/train-rice-classifier',
+    '-f',
+    'Dockerfile'
+  ]
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Push container image'
+  args: [
+    'push',
+    'europe-north2-docker.pkg.dev/robust-charge-484208-t4/m21-container-registry/train-rice-classifier'
+  ]
+options:
+  logging: CLOUD_LOGGING_ONLY
