@@ -373,7 +373,9 @@ We made use of both branches and PRs in our project. In our group, each member h
 >
 > Answer:
 
-We used profiling to catch big time consumers in running our code that could be avoided. For example we found that we had initialized wandb two time instead of on which was the bigggest time consumer in our train.py script.
+When we ran into bugs during our experiments, we mainly used error messages, stack traces, and simple print statements to understand what went wrong. When the code ran but was slower than expected, we used profiling to see where most of the time was being spent.
+
+Profiling helped us identify unnecessary overhead in our code. For example, in train.py we discovered that Weights & Biases (wandb) was initialized twice, which caused a large slowdown. We also profiled data.py and found that some code was running even when it was not needed. By redoing the script, we removed this overhead and made the code more efficient by moving preprocessing logic so it only runs when the script is executed directly, and by avoiding unnecessary setup when the data module is imported during training.
 
 ## Working in the cloud
 
