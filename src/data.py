@@ -140,15 +140,6 @@ def preprocess():
         split_files["val"][cls] = [f.name for f in val_files]
         split_files["test"][cls] = [f.name for f in test_files]
 
-    # Write manifest with counts and file lists
-    manifest = {
-        "classes": dataset.class_names,
-        "counts": split_counts,
-        "files": split_files,
-    }
-    manifest_path = output_folder / "split_manifest.json"
-    with manifest_path.open("w", encoding="utf-8") as f:
-        json.dump(manifest, f, indent=2)
 
     # Print verification summary per class
     print(f"Created stratified splits at {output_folder} (seed={config.seed}).")

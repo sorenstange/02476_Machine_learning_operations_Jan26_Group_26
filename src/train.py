@@ -117,7 +117,7 @@ def train(cfg) -> None:
     # Save model into the original working directory so artifact points to correct location
     model_dir = Path(get_original_cwd()) / "models"
     model_dir.mkdir(exist_ok=True)
-    model_path = model_dir / "rice_classifier.pth"
+    model_path = model_dir / f"{parameters['model_name']}_rice_classifier.pth"
     torch.save(model.state_dict(), model_path)
     print(f"Model saved to {model_path}")
 
@@ -129,7 +129,7 @@ def train(cfg) -> None:
             break
 
     artifact = wandb.Artifact(
-        name=parameters["model_name"] + 'rice_classifier' + "_final",
+        name=parameters["model_name"] + '_rice_classifier' + "_final",
         type="model",
         metadata={"epochs": parameters["epochs"], "lr": parameters["learning_rate"], "batch_size": parameters["batch_size"]}
     )
