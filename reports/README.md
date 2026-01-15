@@ -159,7 +159,7 @@ Group 26
 >
 > Answer:
 
---- question 3 fill here --
+We used the third-party framework that was the pretrained ResNet18 model from the Timm package in our project, we did this to compare a pretrained model with our own CNN custom model with 4 hidden convolutional layers and 2 fully connected layers. This was to give us an insigth in the advantage of using pretrained models versus to train you own model from scratch.
 
 ## Coding environment
 
