@@ -373,7 +373,7 @@ We made use of both branches and PRs in our project. In our group, each member h
 >
 > Answer:
 
---- question 16 fill here ---
+We used profiling to catch big time consumers in running our code that could be avoided. For example we found that we had initialized wandb two time instead of on which was the bigggest time consumer in our train.py script.
 
 ## Working in the cloud
 
