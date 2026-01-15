@@ -196,7 +196,7 @@ If a new team member were to join our project, they would simply have to create 
 >
 > Answer:
 
-From the cookiecutter template we have filled out the tests , src, models and reports folder. We have removed the ... folder because we did not use any ... in our project. We have added a data folder that contains the preproccesed data fit into a train, test and val folder for splitting our dataset. We have added a ... folder that contains ... to do ....
+From the cookiecutter template we have filled out the tests , src, models and reports folder. We have removed the ... folder because we did not use any ... in our project. In the data folder we simply made 3 folders that was a train, validation and training folder instead of having the raw and preprocessed folder. In this data folder, the raw data from Rice_Image_Dataset was preproccesed and split into these 3 folders. We have added a ... folder that contains ... to do ....
 
 ### Question 6
 
