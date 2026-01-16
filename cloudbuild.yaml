@@ -13,14 +13,14 @@ steps:
   id: 'Push container image'
   args: [
     'push',
-    'europe-north2-docker.pkg.dev/robust-charge-484208-t4/m21-container-registry/train-rice-classifier'
+    'europe-north2-docker.pkg.dev/robust-charge-484208-t4/m21-container-registry/train-rice-classifier:latest'
   ]
 - name: 'gcr.io/cloud-builders/cloud-run'
   id: 'Train model with W&B secret'
   args: [
     'deploy',
     '--image',
-    'europe-north2-docker.pkg.dev/robust-charge-484208-t4/m21-container-registry/train-rice-classifier',
+    'europe-north2-docker.pkg.dev/robust-charge-484208-t4/m21-container-registry/train-rice-classifier:latest',
     '--command',
     'bash,-c,dvc pull && python src/train.py experiment=resnet',
     '--set-env-vars',
