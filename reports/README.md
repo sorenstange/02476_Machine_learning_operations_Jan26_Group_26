@@ -278,7 +278,8 @@ We made use of both branches and pull requests in our project. Each group member
 >
 > Answer:
 
---- question 10 fill here ---
+We did make use of DVC in the following way: We managed our dataset by initializing DVC in our repository, added the data folder as DVC-tracked dataset and pushed it to ... In this way we could version control our data independently from the code. This helped us ensure reproducebility of experiments as the exact datset could be used for givn model training. It also helped us to be multiple people working on the same data. ...
+
 
 ### Question 11
 
