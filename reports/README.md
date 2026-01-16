@@ -230,7 +230,7 @@ From the cookiecutter template we have filled out the tests , src, models and re
 >
 > Answer:
 
---- question 7 fill here ---
+In total we have implemented X tests. We test the dataloading pipeline by performing four unit tests that validate both structure and content of the loaded data. Additionally we perform four test on the CNN model to verify initialization, output of forward pass and execution of training and validation. ....
 
 ### Question 8
 
