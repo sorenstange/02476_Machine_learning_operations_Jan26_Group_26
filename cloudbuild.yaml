@@ -5,7 +5,7 @@ steps:
     'build',
     '.',
     '-t',
-    'europe-north2-docker.pkg.dev/robust-charge-484208-t4/m21-container-registry/train-rice-classifier',
+    'europe-north2-docker.pkg.dev/robust-charge-484208-t4/m21-container-registry/train-rice-classifier:latest',
     '-f',
     'Dockerfile'
   ]
