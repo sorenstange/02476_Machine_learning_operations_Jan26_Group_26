@@ -1,0 +1,28 @@
+{
+  "os":  "Windows-11-10.0.26200-SP0",
+  "python":  "CPython 3.13.11",
+  "startedAt":  "2026-01-15T10:43:18.346307Z",
+  "program":  "C:\\Users\\fugle\\OneDrive\\DTU_2\\MLO\\dtu_mlops\\github_project\\02476_Machine_learning_operations_Jan26_Group_26\\src\\train.py",
+  "codePath":  "src\\train.py",
+  "codePathLocal":  "src\\train.py",
+  "git":  {
+    "remote":  "https://github.com/sorenstange/02476_Machine_learning_operations_Jan26_Group_26",
+    "commit":  "074e029c6b250d87806c72598015cf5772e981ec"
+  },
+  "email":  "s204206@dtu.dk",
+  "root":  ".",
+  "host":  "DESKTOP-KFSGT5T",
+  "executable":  "C:\\Users\\fugle\\anaconda3\\envs\\my_environment\\python.exe",
+  "cpu_count":  8,
+  "cpu_count_logical":  16,
+  "disk":  {
+    "/":  {
+      "total":  "511010926592",
+      "used":  "378350579712"
+    }
+  },
+  "memory":  {
+    "total":  "16441667584"
+  },
+  "writerId":  "g8cay72xb4h7j13yayr5cb6d70kcm2be"
+}

@@ -1,0 +1,29 @@
+#config.yaml
+
+defaults:
+  - experiment: cnn_exp1
+  - _self_
+
+project_name: rice-classifier
+seed : 42
+
+data_parameters:
+  dataset_raw_path: Rice_Image_Dataset
+  dataset_processed_path: data
+  train_fraction: 0.7
+  validation_fraction: 0.15
+  test_fraction: 0.15
+  num_classes: 5
+  channels: 1
+  augmentation:
+    shape: [224, 224]
+    mean: 0.5
+    std: 0.5
+
+training_parameters:
+  epochs: 30
+  batch_size: 32
+  learning_rate: 0.0001
+  num_workers: 4
+
+  

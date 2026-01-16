@@ -33,12 +33,17 @@ def dev_requirements(ctx: Context) -> None:
 @task
 def preprocess_data(ctx: Context) -> None:
     """Preprocess data."""
-    ctx.run(f"python src/{PROJECT_NAME}/data.py data/raw data/processed", echo=True, pty=not WINDOWS)
+    ctx.run(f"python src/data.py", echo=True, pty=not WINDOWS)
 
 @task
 def train(ctx: Context) -> None:
     """Train model."""
-    ctx.run(f"python src/{PROJECT_NAME}/train.py", echo=True, pty=not WINDOWS)
+    ctx.run(f"python src/train.py", echo=True, pty=not WINDOWS)
+    
+@task
+def evaluate(ctx: Context) -> None:
+    """Evaluate model."""
+    ctx.run(f"python src/evaluate.py", echo=True, pty=not WINDOWS)
 
 @task
 def test(ctx: Context) -> None:
