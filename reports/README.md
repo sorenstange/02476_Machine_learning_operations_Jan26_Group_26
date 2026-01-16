@@ -245,7 +245,8 @@ In total we have implemented X tests. We test the dataloading pipeline by perfor
 >
 > Answer:
 
---- question 8 fill here ---
+The total code coverage of our code is ..... If our code had a code coverage of 100% or close to we could still not trust it to be error free. This is because the code coverage is a measure of the amount of lines of code are run during the test. Therefore there can still be meaningful scenarios (input scenarios, unexpected situations or other edge cases) that are not included in the test, and which would result in an error. Therefore in addition to the code coverage other testing would be advisable in order to test the code. 
+
 
 ### Question 9
 
