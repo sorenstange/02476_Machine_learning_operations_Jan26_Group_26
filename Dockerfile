@@ -1,12 +1,7 @@
-FROM nvidia/cuda:12.1.1-cudnn8-runtime-ubuntu22.04
+FROM  nvcr.io/nvidia/pytorch:22.07-py3
 
 RUN apt update && \
-    apt install --no-install-recommends -y \
-        python3 \
-        python3-pip \
-        git \
-        build-essential && \
-    ln -s /usr/bin/python3 /usr/bin/python && \
+    apt install --no-install-recommends -y build-essential gcc && \
     apt clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
