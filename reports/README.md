@@ -211,7 +211,9 @@ From the cookiecutter template we have filled out the tests , src, models and re
 >
 > Answer:
 
---- question 6 fill here ---
+We used ... for linting and ... for formatting. We also used ... for typing and ... for documentation. These concepts are important in larger projects because when multiple people work on the same code consistent formatting and documentation reduce unnecessary confusion and misunderstandings. Documentation also adds to effectivity, since clear documentation can help other team members to understand functions without reviewing every line of code. For example, typing ...
+
+
 
 ## Version control
 
