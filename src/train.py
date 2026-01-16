@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 import torch
 import wandb
 import hydra
@@ -64,6 +65,15 @@ log = logging.getLogger(__name__)
 def train(cfg) -> None: 
     """Train a model on Rice Image Dataset."""
     log.info("Training rice classifier")
+    
+    # Authenticate with W&B using API key from environment
+    wandb_api_key = os.getenv("WANDB_API_KEY")
+    if wandb_api_key:
+        wandb.login(key=wandb_api_key)
+        log.info("W&B authentication successful")
+    else:
+        log.warning("WANDB_API_KEY not found in environment - W&B may not work properly")
+    
     parameters = load_parameters(cfg)
     log.info(f"learning rate = {parameters['learning_rate']}, batch size = {parameters['batch_size']=}, epochs = {parameters['epochs']=}")
     
@@ -114,13 +124,6 @@ def train(cfg) -> None:
     
     print("Training complete.")
 
-    # Save model into the original working directory so artifact points to correct location
-    model_dir = Path(get_original_cwd()) / "models"
-    model_dir.mkdir(exist_ok=True)
-    model_path = model_dir / "rice_classifier.pth"
-    torch.save(model.state_dict(), model_path)
-    print(f"Model saved to {model_path}")
-
     # Log the best model checkpoint if available, otherwise log the saved final model
     best_ckpt = None
     for cb in trainer.callbacks:
@@ -129,12 +132,12 @@ def train(cfg) -> None:
             break
 
     artifact = wandb.Artifact(
-        name=parameters["model_name"] + 'rice_classifier' + "_final",
+        name=parameters["model_name"] + '_rice_classifier' + "_final",
         type="model",
         metadata={"epochs": parameters["epochs"], "lr": parameters["learning_rate"], "batch_size": parameters["batch_size"]}
     )
 
-    log_path = best_ckpt if best_ckpt else str(model_path)
+    log_path = best_ckpt# if best_ckpt else str(model_path)
     artifact.add_file(str(log_path))
     # Use the WandbLogger's experiment (the active run)
     wandb_logger.experiment.log_artifact(artifact)
