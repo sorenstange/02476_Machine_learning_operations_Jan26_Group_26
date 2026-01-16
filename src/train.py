@@ -114,13 +114,6 @@ def train(cfg) -> None:
     
     print("Training complete.")
 
-    # Save model into the original working directory so artifact points to correct location
-    model_dir = Path(get_original_cwd()) / "models"
-    model_dir.mkdir(exist_ok=True)
-    model_path = model_dir / f"{parameters['model_name']}_rice_classifier.pth"
-    torch.save(model.state_dict(), model_path)
-    print(f"Model saved to {model_path}")
-
     # Log the best model checkpoint if available, otherwise log the saved final model
     best_ckpt = None
     for cb in trainer.callbacks:
@@ -134,7 +127,7 @@ def train(cfg) -> None:
         metadata={"epochs": parameters["epochs"], "lr": parameters["learning_rate"], "batch_size": parameters["batch_size"]}
     )
 
-    log_path = best_ckpt if best_ckpt else str(model_path)
+    log_path = best_ckpt# if best_ckpt else str(model_path)
     artifact.add_file(str(log_path))
     # Use the WandbLogger's experiment (the active run)
     wandb_logger.experiment.log_artifact(artifact)

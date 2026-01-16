@@ -22,7 +22,6 @@ COPY src/ src/
 COPY configs/ configs/
 COPY .dvc/ .dvc/
 COPY data.dvc .
-COPY models.dvc .
 
 # Default command
 ENTRYPOINT ["bash", "-c"]
