@@ -260,7 +260,7 @@ From the cookiecutter template we have filled out the tests , src, models and re
 >
 > Answer:
 
-We made use of both branches and PRs in our project. In our group, each member had a branch that they worked on in addition to the main branch. To merge code we made a merge request directly on the github webrowser instead of using the terminal. At times, we also simply agreed to push certain parts of code into main directly because we felt it was easier instead of others having to pull from other branches than their own.
+We made use of both branches and pull requests in our project. Each group member worked on their own branch alongside the main branch, which helped keep individual changes separated during development. When code was ready to be integrated, we merged it through pull requests created directly in the GitHub web interface rather than using the terminal. This allowed us to review changes and check if tests had passed in the code before merging. In some cases, we mutually agreed to push smaller or less conflicting changes directly to the main branch, as this was more efficient than having others pull from additional branches.
 
 ### Question 10
 
