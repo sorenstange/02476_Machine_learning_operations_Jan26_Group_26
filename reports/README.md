@@ -211,7 +211,9 @@ From the cookiecutter template we have filled out the tests , src, models and re
 >
 > Answer:
 
---- question 6 fill here ---
+We used ... for linting and ... for formatting. We also used ... for typing and ... for documentation. These concepts are important in larger projects because when multiple people work on the same code consistent formatting and documentation reduce unnecessary confusion and misunderstandings. Documentation also adds to effectivity, since clear documentation can help other team members to understand functions without reviewing every line of code. For example, typing ...
+
+
 
 ## Version control
 
@@ -245,7 +247,8 @@ In total we have implemented X tests. We test the dataloading pipeline by perfor
 >
 > Answer:
 
---- question 8 fill here ---
+The total code coverage of our code is ..... If our code had a code coverage of 100% or close to we could still not trust it to be error free. This is because the code coverage is a measure of the amount of lines of code are run during the test. Therefore there can still be meaningful scenarios (input scenarios, unexpected situations or other edge cases) that are not included in the test, and which would result in an error. Therefore in addition to the code coverage other testing would be advisable in order to test the code. 
+
 
 ### Question 9
 
@@ -275,7 +278,8 @@ We made use of both branches and pull requests in our project. Each group member
 >
 > Answer:
 
---- question 10 fill here ---
+We did make use of DVC in the following way: We managed our dataset by initializing DVC in our repository, added the data folder as DVC-tracked dataset and pushed it to ... In this way we could version control our data independently from the code. This helped us ensure reproducebility of experiments as the exact datset could be used for givn model training. It also helped us to be multiple people working on the same data. ...
+
 
 ### Question 11
 
