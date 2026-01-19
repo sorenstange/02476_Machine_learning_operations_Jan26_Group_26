@@ -470,7 +470,7 @@ Profiling helped us identify unnecessary overhead in our code. For example, in t
 >
 > Answer:
 
---- question 23 fill here ---
+Yes, we successfully wrote an API for our model using FastAPI. The trained model is loaded once when the API starts, which improves efficiency and avoids reloading the model for each request. The API includes a simple health route to check if the service is running and a prediction route that accepts an uploaded image file. The uploaded file is first checked to make sure it is an image. The image is then processed in the same way as during training, including resizing, converting to grayscale, and normalizing. This ensures the input format matches what the model expects. The API returns the predicted class along with a confidence score and class probabilities.
 
 ### Question 24
 
