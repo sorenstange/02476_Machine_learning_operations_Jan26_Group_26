@@ -13,20 +13,25 @@ app = FastAPI(title="Rice Grain Classifier API")
 
 # Load model once on startup
 MODEL_PATH = Path("models/rice_classifier.pth")
+model = None
 
 try:
-    model = CNN_Model(parameters={
-        "learning_rate": 0.0001, 
-        "input_channels": 1, 
-        "output_dim": 5,
-        "input_size": (224, 224),
-        "conv_layers": [16, 32, 64, 128],
-        "fc_layers": [256, 128]
-    })
-    model.load_state_dict(torch.load(MODEL_PATH, map_location="cpu"))
-    model.eval()
+    if MODEL_PATH.exists():
+        model = CNN_Model(parameters={
+            "learning_rate": 0.0001, 
+            "input_channels": 1, 
+            "output_dim": 5,
+            "input_size": (224, 224),
+            "conv_layers": [16, 32, 64, 128],
+            "fc_layers": [256, 128]
+        })
+        model.load_state_dict(torch.load(MODEL_PATH, map_location="cpu"))
+        model.eval()
+    else:
+        print(f"Warning: Model file not found at {MODEL_PATH}. API will not function properly.")
 except Exception as e:
-    raise RuntimeError(f"Could not load model: {e}")
+    print(f"Warning: Could not load model: {e}")
+    model = None
 
 # Define the transforms you trained with
 transform = transforms.Compose([
@@ -45,6 +50,9 @@ def health():
 
 @app.post("/predict/")
 async def predict(file: UploadFile = File(...)):
+    if model is None:
+        raise HTTPException(status_code=503, detail="Model not loaded. Please ensure model file exists.")
+    
     try:
         # 1) Check input file
         if not file.content_type or file.content_type.split("/")[0] != "image":
