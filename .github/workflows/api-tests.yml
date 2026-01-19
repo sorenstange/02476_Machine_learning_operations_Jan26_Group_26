@@ -34,4 +34,4 @@ jobs:
         "
 
     - name: Run tests
-      run: pytest test_api.py -v
+      run: pytest tests/test_api.py -v
