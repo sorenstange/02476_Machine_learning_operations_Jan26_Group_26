@@ -14,3 +14,6 @@ Pillow
 timm
 dvc
 dvc-gs
+fastapi
+uvicorn
+python-multipart
