@@ -7,8 +7,8 @@ from hydra.utils import get_original_cwd
 from pytorch_lightning import Trainer
 from lightning.pytorch.loggers import WandbLogger
 from lightning.pytorch.callbacks import Callback, ModelCheckpoint
-from data import load_train_data, load_val_data
-from model import load_model, load_parameters
+from src.data import load_train_data, load_val_data
+from src.model import load_model, load_parameters
 
 class WandbArtifactCallback(Callback):
     """Callback that logs the current best checkpoint from a ModelCheckpoint callback to W&B.
@@ -116,7 +116,7 @@ def train(cfg) -> None:
         print("Using GPU for training")
     else:
         accelerator = "cpu"
-        devices = None
+        devices = 1
         print("Using CPU for training")
     
     trainer = Trainer(max_epochs=parameters["epochs"], accelerator=accelerator, devices=devices, logger=wandb_logger, callbacks=[checkpoint_cb, artifact_cb])

@@ -11,27 +11,44 @@ from src.model import CNN_Model
 
 app = FastAPI(title="Rice Grain Classifier API")
 
-# Load model once on startup
-MODEL_PATH = Path("models/rice_classifier.pth")
+# Load model once on startup (require Lightning checkpoint)
+CKPT_PATH = Path("checkpoints/best.ckpt")
 model = None
 
-try:
-    if MODEL_PATH.exists():
-        model = CNN_Model(parameters={
-            "learning_rate": 0.0001, 
-            "input_channels": 1, 
-            "output_dim": 5,
-            "input_size": (224, 224),
-            "conv_layers": [16, 32, 64, 128],
-            "fc_layers": [256, 128]
-        })
-        model.load_state_dict(torch.load(MODEL_PATH, map_location="cpu"))
-        model.eval()
-    else:
-        print(f"Warning: Model file not found at {MODEL_PATH}. API will not function properly.")
-except Exception as e:
-    print(f"Warning: Could not load model: {e}")
-    model = None
+
+def _init_model() -> CNN_Model:
+    # Defaults match the trained custom CNN config
+    return CNN_Model(parameters={
+        "learning_rate": 0.0001,
+        "input_channels": 1,
+        "output_dim": 5,
+        "input_size": (224, 224),
+        "model_name": "custom_cnn",
+        "conv_layers": [16, 32, 64, 128],
+        "fc_layers": [256, 128],
+    })
+
+
+def _load_model_weights() -> CNN_Model | None:
+    if not CKPT_PATH.exists():
+        print("Warning: No model weights found (expected checkpoints/best.ckpt)")
+        return None
+
+    try:
+        weights = torch.load(CKPT_PATH, map_location="cpu")
+        state_dict = weights.get("state_dict", weights) if isinstance(weights, dict) else weights
+
+        model_obj = _init_model()
+        model_obj.load_state_dict(state_dict)
+        model_obj.eval()
+        print(f"Loaded model weights from {CKPT_PATH}")
+        return model_obj
+    except Exception as e:
+        print(f"Warning: Could not load model from {CKPT_PATH}: {e}")
+        return None
+
+
+model = _load_model_weights()
 
 # Define the transforms you trained with
 transform = transforms.Compose([
