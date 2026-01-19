@@ -75,7 +75,7 @@ def train(cfg) -> None:
     """Train a model on Rice Image Dataset."""
     log.info("Training rice classifier")
 
-    torch.seed(cfg.seed)
+    torch.manual_seed(cfg.seed)
     
     # Authenticate with W&B using API key from environment
     wandb_api_key = os.getenv("WANDB_API_KEY")
