@@ -159,7 +159,7 @@ Group 26
 >
 > Answer:
 
---- question 3 fill here ---
+We used the third-party framework that was the pretrained ResNet18 model from the Timm package in our project, we did this to compare a pretrained model with our own CNN custom model with 4 hidden convolutional layers and 2 fully connected layers. This was to give us an insigth in the advantage of using pretrained models versus to train you own model from scratch.
 
 ## Coding environment
 
@@ -196,7 +196,7 @@ If a new team member were to join our project, they would simply have to create 
 >
 > Answer:
 
---- question 5 fill here ---
+From the cookiecutter template we have filled out the tests , src, models and reports folder. We have removed the ... folder because we did not use any ... in our project. In the data folder we simply made 3 folders that was a train, validation and training folder instead of having the raw and preprocessed folder. In this data folder, the raw data from Rice_Image_Dataset was preproccesed and split into these 3 folders. We have added a ... folder that contains ... to do ....
 
 ### Question 6
 
@@ -211,7 +211,9 @@ If a new team member were to join our project, they would simply have to create 
 >
 > Answer:
 
---- question 6 fill here ---
+We used ... for linting and ... for formatting. We also used ... for typing and ... for documentation. These concepts are important in larger projects because when multiple people work on the same code consistent formatting and documentation reduce unnecessary confusion and misunderstandings. Documentation also adds to effectivity, since clear documentation can help other team members to understand functions without reviewing every line of code. For example, typing ...
+
+
 
 ## Version control
 
@@ -230,7 +232,7 @@ If a new team member were to join our project, they would simply have to create 
 >
 > Answer:
 
---- question 7 fill here ---
+In total we have implemented X tests. We test the dataloading pipeline by performing four unit tests that validate both structure and content of the loaded data. Additionally we perform four test on the CNN model to verify initialization, output of forward pass and execution of training and validation. ....
 
 ### Question 8
 
@@ -245,7 +247,8 @@ If a new team member were to join our project, they would simply have to create 
 >
 > Answer:
 
---- question 8 fill here ---
+The total code coverage of our code is ..... If our code had a code coverage of 100% or close to we could still not trust it to be error free. This is because the code coverage is a measure of the amount of lines of code are run during the test. Therefore there can still be meaningful scenarios (input scenarios, unexpected situations or other edge cases) that are not included in the test, and which would result in an error. Therefore in addition to the code coverage other testing would be advisable in order to test the code. 
+
 
 ### Question 9
 
@@ -260,7 +263,7 @@ If a new team member were to join our project, they would simply have to create 
 >
 > Answer:
 
---- question 9 fill here ---
+We made use of both branches and pull requests in our project. Each group member worked on their own branch alongside the main branch, which helped keep individual changes separated during development. When code was ready to be integrated, we merged it through pull requests created directly in the GitHub web interface rather than using the terminal. This allowed us to review changes and check if tests had passed in the code before merging. In some cases, we mutually agreed to push smaller or less conflicting changes directly to the main branch, as this was more efficient than having others pull from additional branches.
 
 ### Question 10
 
@@ -275,7 +278,8 @@ If a new team member were to join our project, they would simply have to create 
 >
 > Answer:
 
---- question 10 fill here ---
+We did make use of DVC in the following way: We managed our dataset by initializing DVC in our repository, added the data folder as DVC-tracked dataset and pushed it to ... In this way we could version control our data independently from the code. This helped us ensure reproducebility of experiments as the exact datset could be used for givn model training. It also helped us to be multiple people working on the same data. ...
+
 
 ### Question 11
 
@@ -373,7 +377,9 @@ If a new team member were to join our project, they would simply have to create 
 >
 > Answer:
 
---- question 16 fill here ---
+When we ran into bugs during our experiments, we mainly used error messages, stack traces, and simple print statements to understand what went wrong. When the code ran but was slower than expected, we used profiling to see where most of the time was being spent.
+
+Profiling helped us identify unnecessary overhead in our code. For example, in train.py we discovered that Weights & Biases (wandb) was initialized twice, which caused a large slowdown. We also profiled data.py and found that some code was running even when it was not needed. By redoing the script, we removed this overhead and made the code more efficient by moving preprocessing logic so it only runs when the script is executed directly, and by avoiding unnecessary setup when the data module is imported during training.
 
 ## Working in the cloud
 
@@ -464,7 +470,7 @@ If a new team member were to join our project, they would simply have to create 
 >
 > Answer:
 
---- question 23 fill here ---
+Yes, we successfully wrote an API for our model using FastAPI. The trained model is loaded once when the API starts, which improves efficiency and avoids reloading the model for each request. The API includes a simple health route to check if the service is running and a prediction route that accepts an uploaded image file. The uploaded file is first checked to make sure it is an image. The image is then processed in the same way as during training, including resizing, converting to grayscale, and normalizing. This ensures the input format matches what the model expects. The API returns the predicted class along with a confidence score and class probabilities.
 
 ### Question 24
 
@@ -495,7 +501,9 @@ If a new team member were to join our project, they would simply have to create 
 >
 > Answer:
 
---- question 25 fill here ---
+Yes, we did both unit testing and basic load testing for the API. For unit testing, we used pytest and FastAPI’s TestClient. The tests check that the health route works, that the predict route returns a class and confidence when an image is uploaded, and that non-image files are rejected with an error. Test images are created in memory using PIL, so no external files are needed. When testing all the tests returned that it was working.
+
+We also added a simple load test. This test sends 50 requests to the predict route using 10 concurrent workers. All 50 requests were successful and finished in about 0.75 seconds, which is around 66 requests per second. This shows that the API can handle a large number of simultaneous requests without errors.
 
 ### Question 26
 

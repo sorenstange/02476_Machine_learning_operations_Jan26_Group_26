@@ -18,7 +18,7 @@ def evaluate(cfg) -> None:
     """Evaluate a trained rice classifier model on test data."""
     parameters = load_parameters(cfg)
     
-    model_checkpoint = Path("models/rice_classifier.pth")
+    model_checkpoint = Path(f"models/{parameters['model_name']}_rice_classifier.pth")
     
     if not model_checkpoint.exists():
         raise FileNotFoundError(f"Model checkpoint not found: {model_checkpoint}")
