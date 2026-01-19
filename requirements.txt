@@ -15,3 +15,6 @@ timm
 dvc
 dvc-gs
 google
+fastapi
+uvicorn
+python-multipart

@@ -127,7 +127,7 @@ def train(cfg) -> None:
         print("Using GPU for training")
     else:
         accelerator = "cpu"
-        devices = None
+        devices = 1
         print("Using CPU for training")
     
     trainer = Trainer(max_epochs=parameters["epochs"], accelerator=accelerator, devices=devices, logger=wandb_logger, callbacks=[checkpoint_cb, artifact_cb])

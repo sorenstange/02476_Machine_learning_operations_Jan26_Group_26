@@ -1,0 +1,67 @@
+_wandb:
+    value:
+        cli_version: 0.23.1
+        e:
+            l0ang8mk7iihwwkcmwbh2dwo4m0g4ees:
+                args:
+                    - experiment=resnet
+                cpu_count: 8
+                cpu_count_logical: 16
+                disk:
+                    /:
+                        total: "511010926592"
+                        used: "379830759424"
+                email: s204206@dtu.dk
+                executable: C:\Users\fugle\anaconda3\envs\my_environment\python.exe
+                git:
+                    commit: 57ebe9c148c5fb272d0c5542f8453f73003f3739
+                    remote: https://github.com/sorenstange/02476_Machine_learning_operations_Jan26_Group_26
+                host: DESKTOP-KFSGT5T
+                memory:
+                    total: "16441667584"
+                os: Windows-11-10.0.26200-SP0
+                program: -m src.train
+                python: CPython 3.13.11
+                root: C:\Users\fugle\OneDrive\DTU_2\MLO\dtu_mlops\github_project\02476_Machine_learning_operations_Jan26_Group_26
+                startedAt: "2026-01-19T11:23:03.702559Z"
+                writerId: l0ang8mk7iihwwkcmwbh2dwo4m0g4ees
+        m: []
+        python_version: 3.13.11
+        t:
+            "1":
+                - 1
+                - 9
+                - 11
+                - 41
+                - 49
+                - 50
+                - 63
+                - 103
+                - 105
+                - 106
+            "2":
+                - 1
+                - 9
+                - 11
+                - 41
+                - 49
+                - 50
+                - 63
+                - 103
+                - 105
+                - 106
+            "3":
+                - 16
+            "4": 3.13.11
+            "5": 0.23.1
+            "6": 4.57.5
+            "8":
+                - 3
+            "12": 0.23.1
+            "13": windows-amd64
+batch_size:
+    value: 64
+epochs:
+    value: 30
+lr:
+    value: 0.0001
