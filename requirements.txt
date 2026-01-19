@@ -1,7 +1,7 @@
 torch
 torchvision
 torchmetrics
-pytorch-lightning
+lightning
 typer
 wandb
 hydra-core
@@ -14,3 +14,4 @@ Pillow
 timm
 dvc
 dvc-gs
+google

@@ -9,6 +9,9 @@ COPY requirements.txt pyproject.toml ./
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
+
+WORKDIR /
+
 # Copy code and DVC metadata
 COPY src/ src/
 COPY configs/ configs/
