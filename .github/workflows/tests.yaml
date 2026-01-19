@@ -33,10 +33,11 @@ jobs:
 
       - name: Create test model
         run: |
-          mkdir -p models
           python -c "
           import torch
+          from pathlib import Path
           from src.model import CNN_Model
+          Path('models').mkdir(exist_ok=True)
           model = CNN_Model(parameters={'learning_rate': 0.0001, 'input_channels': 1, 'output_dim': 5, 'input_size': (224, 224), 'conv_layers': [16, 32, 64, 128], 'fc_layers': [256, 128]})
           torch.save(model.state_dict(), 'models/rice_classifier.pth')
           "
