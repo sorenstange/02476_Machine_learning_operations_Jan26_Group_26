@@ -501,7 +501,9 @@ Profiling helped us identify unnecessary overhead in our code. For example, in t
 >
 > Answer:
 
---- question 25 fill here ---
+Yes, we did both unit testing and basic load testing for the API. For unit testing, we used pytest and FastAPI’s TestClient. The tests check that the health route works, that the predict route returns a class and confidence when an image is uploaded, and that non-image files are rejected with an error. Test images are created in memory using PIL, so no external files are needed. When testing all the tests returned that it was working.
+
+We also added a simple load test. This test sends 50 requests to the predict route using 10 concurrent workers. All 50 requests were successful and finished in about 0.75 seconds, which is around 66 requests per second. This shows that the API can handle a large number of simultaneous requests without errors.
 
 ### Question 26
 
