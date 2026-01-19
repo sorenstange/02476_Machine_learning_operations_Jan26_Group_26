@@ -1,0 +1,13 @@
+# config_gpu.yaml
+# run with: gcloud ai custom-jobs create --region=europe-west1 --display-name=resnet-run --config=config_resnet.yaml
+workerPoolSpecs:
+- machineSpec:
+    machineType: n1-standard-8
+    acceleratorType: NVIDIA_TESLA_T4
+    acceleratorCount: 1
+  replicaCount: 1
+  containerSpec:
+    imageUri: europe-north2-docker.pkg.dev/robust-charge-484208-t4/m21-container-registry/train-resnet:latest
+    env:
+    - name: WANDB_API_KEY
+      value: "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"
