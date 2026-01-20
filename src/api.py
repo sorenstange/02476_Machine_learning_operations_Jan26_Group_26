@@ -15,8 +15,8 @@ app = FastAPI(title="Rice Grain Classifier API")
 
 # Load model once on startup (require Lightning checkpoint)
 CKPT_PATH = Path("checkpoints/best.ckpt")
-GCS_BUCKET = "my_mlops_data_bucket_06"
-GCS_BLOB = "best.ckpt"
+GCS_BUCKET = "mlops-s204229"
+GCS_BLOB = "checkpoints/custom_cnn_best.ckpt"
 model = None
 
 
