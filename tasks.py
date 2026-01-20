@@ -52,6 +52,11 @@ def test(ctx: Context) -> None:
     ctx.run("coverage report -m -i", echo=True, pty=not WINDOWS)
 
 @task
+def API(ctx: Context) -> None:
+    """Run API server."""
+    ctx.run("uvicorn src.api:app --host 0.0.0.0 --port 8000", echo=True, pty=not WINDOWS)
+
+@task
 def docker_build(ctx: Context, progress: str = "plain") -> None:
     """Build docker images."""
     ctx.run(

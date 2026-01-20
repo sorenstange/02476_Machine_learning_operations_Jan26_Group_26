@@ -35,7 +35,8 @@ def _load_model_weights() -> CNN_Model | None:
         return None
 
     try:
-        weights = torch.load(CKPT_PATH, map_location="cpu")
+        # Explicitly disable weights_only to allow Lightning/omegaconf metadata in the checkpoint
+        weights = torch.load(CKPT_PATH, map_location="cpu", weights_only=False)
         state_dict = weights.get("state_dict", weights) if isinstance(weights, dict) else weights
 
         model_obj = _init_model()
