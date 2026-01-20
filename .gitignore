@@ -178,3 +178,5 @@ cython_debug/
 
 /checkpoints
 /rice_classifier
+/models
+/wandb

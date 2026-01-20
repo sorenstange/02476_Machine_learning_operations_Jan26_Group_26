@@ -5,10 +5,10 @@ import wandb
 import hydra
 from hydra.utils import get_original_cwd
 from pytorch_lightning import Trainer
-from lightning.pytorch.loggers import WandbLogger
-from lightning.pytorch.callbacks import Callback, ModelCheckpoint
-from src.data import load_train_data, load_val_data
-from src.model import load_model, load_parameters
+from pytorch_lightning.loggers import WandbLogger
+from pytorch_lightning.callbacks import Callback, ModelCheckpoint
+from data import load_train_data, load_val_data
+from model import load_model, load_parameters
 
 class WandbArtifactCallback(Callback):
     """Callback that logs the current best checkpoint from a ModelCheckpoint callback to W&B.
@@ -58,6 +58,15 @@ class WandbArtifactCallback(Callback):
             # Update last logged to avoid duplicate uploads
             self._last_logged_best = best_path
 
+from google.cloud import storage
+
+def upload_to_gcs(local_path, bucket_name, destination_blob_name):
+    client = storage.Client()
+    bucket = client.bucket(bucket_name)
+    blob = bucket.blob(destination_blob_name)
+    blob.upload_from_filename(local_path)
+    print(f"Uploaded {local_path} to gs://{bucket_name}/{destination_blob_name}")
+
 import logging
 log = logging.getLogger(__name__)
 
@@ -65,6 +74,8 @@ log = logging.getLogger(__name__)
 def train(cfg) -> None: 
     """Train a model on Rice Image Dataset."""
     log.info("Training rice classifier")
+
+    torch.manual_seed(cfg.seed)
     
     # Authenticate with W&B using API key from environment
     wandb_api_key = os.getenv("WANDB_API_KEY")
@@ -93,7 +104,7 @@ def train(cfg) -> None:
         mode="min",
         save_top_k=1,
         dirpath=Path(get_original_cwd()) / "checkpoints",
-        filename="best",
+        filename=f"{parameters['model_name']}_best",
         verbose=True,
     )
 
@@ -124,6 +135,7 @@ def train(cfg) -> None:
     
     print("Training complete.")
 
+
     # Log the best model checkpoint if available, otherwise log the saved final model
     best_ckpt = None
     for cb in trainer.callbacks:
@@ -131,17 +143,32 @@ def train(cfg) -> None:
             best_ckpt = getattr(cb, "best_model_path", None)
             break
 
-    artifact = wandb.Artifact(
-        name=parameters["model_name"] + '_rice_classifier' + "_final",
-        type="model",
-        metadata={"epochs": parameters["epochs"], "lr": parameters["learning_rate"], "batch_size": parameters["batch_size"]}
-    )
+    try:
+        if best_ckpt and Path(best_ckpt).exists():
+            upload_to_gcs(
+                local_path=best_ckpt,
+                bucket_name="mlops-s204229",
+                destination_blob_name=f"checkpoints/{parameters['model_name']}_best.ckpt"
+            )
+    except:
+        pass
+    
+    try:
+        artifact = wandb.Artifact(
+            name=parameters["model_name"] + '_rice_classifier' + "_final",
+            type="model",
+            metadata={"epochs": parameters["epochs"], "lr": parameters["learning_rate"], "batch_size": parameters["batch_size"]}
+        )
 
-    log_path = best_ckpt# if best_ckpt else str(model_path)
-    artifact.add_file(str(log_path))
-    # Use the WandbLogger's experiment (the active run)
-    wandb_logger.experiment.log_artifact(artifact)
-    artifact.wait()  # optional: wait for upload to finish
+        log_path = best_ckpt# if best_ckpt else str(model_path)
+        artifact.add_file(str(log_path))
+        # Use the WandbLogger's experiment (the active run)
+        wandb_logger.experiment.log_artifact(artifact)
+        artifact.wait()  # optional: wait for upload to finish
+    except:
+        pass
+
+    
 
 
 if __name__ == "__main__":

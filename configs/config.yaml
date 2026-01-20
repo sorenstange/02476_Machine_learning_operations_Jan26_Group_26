@@ -1,7 +1,7 @@
 #config.yaml
 
 defaults:
-  - experiment: cnn_exp1
+  - experiment: cnn
   - _self_
 
 project_name: rice-classifier
