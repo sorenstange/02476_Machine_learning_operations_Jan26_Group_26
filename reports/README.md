@@ -411,7 +411,7 @@ Profiling helped us identify unnecessary overhead in our code. For example, in t
 >
 > Answer:
 
---- question 18 fill here ---
+We used Google Cloud Platform's Compute Engine through Vertex AI Custom Jobs to train our deep learning models for rice classification. We deployed two separate training jobs - one for our custom CNN model and another for a ResNet model. The instances used were configured with the following hardware: **n1-standard-8** machine type (8 vCPUs, 30GB memory) equipped with a single **NVIDIA Tesla T4 GPU**. We started these jobs using custom Docker containers built from NVIDIA's PyTorch base image (nvcr.io/nvidia/pytorch:22.07-py3), which included all necessary dependencies for our training pipeline. The containers were stored in Google Artifact Registry and deployed via configuration YAML files (config_cnn.yaml and config_resnet.yaml) that specified the machine specifications, GPU accelerators, and environment variables including our Weights & Biases API key for experiment tracking. This setup allowed us to leverage GPU acceleration for efficient model training while maintaining reproducibility through containerization.
 
 ### Question 19
 
@@ -420,7 +420,9 @@ Profiling helped us identify unnecessary overhead in our code. For example, in t
 >
 > Answer:
 
---- question 19 fill here ---
+![bucket1](figures/bucket1.png)
+
+![bucket2](figures/bucket2.png)
 
 ### Question 20
 
@@ -438,7 +440,7 @@ Profiling helped us identify unnecessary overhead in our code. For example, in t
 >
 > Answer:
 
---- question 21 fill here ---
+![build_history](figures/build%20history.png)
 
 ### Question 22
 
@@ -453,7 +455,7 @@ Profiling helped us identify unnecessary overhead in our code. For example, in t
 >
 > Answer:
 
---- question 22 fill here ---
+Yes, we managed to train two different models in the cloud using the Vertex AI module of the Google Cloud Platform. Docker images where made for each experiment (experiment 1: training our custom CNN model, experiment 2: modifying the pre trained resnet18 model from TIMM) using the cloudbuild_cnn.yaml and cloudbuild_resnet.yaml files and then running 'gcloud builds submit . --config=cloudbuild_cnn.yaml' . These docker images where then excecuted in the Vertex AI module using a custom-job. These can be executed by running 'gcloud builds submit . --config=vertex_ai_train.ayml substitutions=_VERTEX_TRAIN_CONFIG=config_cnn.yaml'. The training job is then submitted, and progress can be followed on the wandb project page.
 
 ## Deployment
 

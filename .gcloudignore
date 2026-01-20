@@ -1,0 +1,35 @@
+# Git
+.git
+.git/**
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+
+# ML artifacts
+data/
+datasets/
+checkpoints/
+logs/
+wandb/
+
+# Docker
+**/.dockerignore
+**/Dockerfile
+
+# OS
+.DS_Store
+
+# Everything else except configs
+**
+!vertex_ai_train.yaml
+!config_cnn.yaml
+!config_resnet.yaml
+!cloudbuild_resnet.yaml
+!cloudbuild_cnn.yaml
+!cnn.dockerfile
+!resnet.dockerfile
