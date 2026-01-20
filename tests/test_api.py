@@ -10,33 +10,33 @@ import torch
 
 # Add parent directory to path to import from src
 sys.path.insert(0, str(Path(__file__).parent.parent))
-from src.api import app
-from src.model import LitResNet18
+from src.model import CNN_Model
 
-client = TestClient(app)
+# Initialize app and client after checkpoint setup
+app = None
+client = None
 
 
 @pytest.fixture(scope="module", autouse=True)
 def setup_test_model():
-    """Create a resnet18 checkpoint before running API tests."""
+    """Create a CNN checkpoint before running API tests."""
     ckpt_path = Path("checkpoints/best.ckpt")
     ckpt_path.parent.mkdir(exist_ok=True, parents=True)
 
-    if not ckpt_path.exists():
-        model = LitResNet18(parameters={
-            'learning_rate': 0.0001,
-            'input_channels': 1,
-            'output_dim': 5,
-            'input_size': (224, 224),
-            'model_name': 'resnet18',
-            'pretrained': True,
-        })
-        torch.save({"state_dict": model.state_dict()}, ckpt_path)
+    # Always create a fresh checkpoint for tests
+    model = CNN_Model(parameters={
+        'learning_rate': 0.0001,
+        'input_channels': 1,
+        'output_dim': 5,
+        'input_size': (224, 224),
+        'model_name': 'custom_cnn',
+        'conv_layers': [16, 32, 64, 128],
+        'fc_layers': [256, 128],
+    })
+    torch.save({"state_dict": model.state_dict()}, ckpt_path)
 
-    # Reload the API app to pick up the checkpoint
-    from importlib import reload
+    # Now import and initialize the API app with the checkpoint in place
     import src.api
-    reload(src.api)
     global app, client
     app = src.api.app
     client = TestClient(app)
