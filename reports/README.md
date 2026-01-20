@@ -411,7 +411,7 @@ Profiling helped us identify unnecessary overhead in our code. For example, in t
 >
 > Answer:
 
---- question 18 fill here ---
+We used Google Cloud Platform's Compute Engine through Vertex AI Custom Jobs to train our deep learning models for rice classification. We deployed two separate training jobs - one for our custom CNN model and another for a ResNet model. The instances used were configured with the following hardware: **n1-standard-8** machine type (8 vCPUs, 30GB memory) equipped with a single **NVIDIA Tesla T4 GPU**. We started these jobs using custom Docker containers built from NVIDIA's PyTorch base image (nvcr.io/nvidia/pytorch:22.07-py3), which included all necessary dependencies for our training pipeline. The containers were stored in Google Artifact Registry and deployed via configuration YAML files (config_cnn.yaml and config_resnet.yaml) that specified the machine specifications, GPU accelerators, and environment variables including our Weights & Biases API key for experiment tracking. This setup allowed us to leverage GPU acceleration for efficient model training while maintaining reproducibility through containerization.
 
 ### Question 19
 

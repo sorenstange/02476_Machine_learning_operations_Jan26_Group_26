@@ -4,6 +4,8 @@ from pathlib import Path
 import torch
 from torchvision import transforms
 from PIL import Image
+from google.cloud import storage
+import os
 import io
 
 # Import model class from your project
@@ -13,6 +15,8 @@ app = FastAPI(title="Rice Grain Classifier API")
 
 # Load model once on startup (require Lightning checkpoint)
 CKPT_PATH = Path("checkpoints/best.ckpt")
+GCS_BUCKET = "mlops-s204229"
+GCS_BLOB = "checkpoints/custom_cnn_best.ckpt"
 model = None
 
 
@@ -27,6 +31,23 @@ def _init_model() -> CNN_Model:
         "conv_layers": [16, 32, 64, 128],
         "fc_layers": [256, 128],
     })
+
+def ensure_ckpt_available():
+    if CKPT_PATH.exists():
+        print(f"Using local checkpoint at {CKPT_PATH}")
+        return
+
+    print("Local checkpoint not found, downloading from GCS...")
+
+    CKPT_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+    client = storage.Client()
+    bucket = client.bucket(GCS_BUCKET)
+    blob = bucket.blob(GCS_BLOB)
+    blob.download_to_filename(CKPT_PATH)
+
+    print(f"Downloaded checkpoint to {CKPT_PATH}")
+
 
 
 def _load_model_weights() -> CNN_Model | None:
@@ -49,7 +70,9 @@ def _load_model_weights() -> CNN_Model | None:
         return None
 
 
+ensure_ckpt_available()
 model = _load_model_weights()
+
 
 # Define the transforms you trained with
 transform = transforms.Compose([
