@@ -1,0 +1,32 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+venv/
+.venv/
+
+# Data & models (DO NOT bake into image)
+checkpoints/
+data/
+*.ckpt
+
+# Datasets (never go into Docker images)
+Rice_Image_Dataset/
+**/Rice_Image_Dataset/
+
+
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# Notebooks
+*.ipynb
+
+# OneDrive temp files
+~$*
