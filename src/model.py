@@ -1,4 +1,4 @@
-from git import List
+from typing import List
 import torch
 from pytorch_lightning import LightningModule
 from torch import nn, optim
