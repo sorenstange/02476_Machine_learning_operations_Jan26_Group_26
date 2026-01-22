@@ -431,7 +431,7 @@ We used Google Cloud Platform's Compute Engine through Vertex AI Custom Jobs to 
 >
 > Answer:
 
---- question 20 fill here ---
+![registry](figures/registry.png)
 
 ### Question 21
 
@@ -541,7 +541,7 @@ We also added a simple load test. This test sends 50 requests to the predict rou
 >
 > Answer:
 
-![build_history](figures/billing_report.png)
+![billing](figures/billing_report.png)
 We could not see how much was used by each member, since we all worked in a single cloud project, but we could see that we ended up using around 6 dollars in credits, where most of them were being used on the artefact registry. It was frustrating to work in the cloud because a lot of time is spent on uploading the Docker image, so if we run into errors in the cloud, we have to do the changes locally, update and make a new docker and upload that image, which for the api took around 1 hour between each update of the files. but the rewarding feeling from having the api up and running through the cloud was big.
 
 
