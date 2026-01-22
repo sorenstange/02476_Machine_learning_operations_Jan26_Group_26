@@ -561,7 +561,7 @@ We could not see how much was used by each member, since we all worked in a sing
 >
 > Answer:
 
---- question 28 fill here ---
+No, we did not do any of the extra parts, we had enough of a challenge and succes with getting the model up and deployed in the cloud.
 
 ### Question 29
 
