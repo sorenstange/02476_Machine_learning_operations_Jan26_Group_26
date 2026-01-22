@@ -361,7 +361,7 @@ We made use of multiple reproducibility mechanisms: Firstly we used Hydra to man
 >
 > Answer:
 
-For our project we developed several images: one for training our custom CNN model, one for training the ResNet model, one for API deployment, and one for drift detection. To run the training Docker images locally, one would execute: `docker build -f cnn.dockerfile -t rice-trainer-cnn . && docker run --gpus all rice-trainer-cnn experiment=cnn`. For the API: `docker build -f Dockerfile -t rice-api . && docker run -p 8080:8080 rice-api`. In the cloud, these images were pushed to Google Artifact Registry and executed via Vertex AI Custom Jobs for training or deployed to Cloud Run for the API. Links: [cnn.dockerfile](cnn.dockerfile), [Dockerfile (API)](Dockerfile)
+For our project we developed several images: one for training our custom CNN model, one for training the ResNet model, one for API deployment, and one for drift detection. To run the training Docker images locally, one would execute: `docker build -f cnn.dockerfile -t rice-trainer-cnn . && docker run --gpus all rice-trainer-cnn experiment=cnn`. For the API: `docker build -f Dockerfile -t rice-api . && docker run -p 8080:8080 rice-api`. 
 
 
 ### Question 16
