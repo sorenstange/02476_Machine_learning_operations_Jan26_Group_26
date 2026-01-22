@@ -329,7 +329,7 @@ We used Hydra for managing experiment configurations through config files. In ou
 >
 > Answer:
 
---- question 13 fill here ---
+We made use of multiple reproducibility mechanisms: Firstly we used Hydra to manage configs, so the complete configurations used for each run are saved to the output directory (outputs/YYYY-MM-DD/HH-MM-SS/.hydra/config.yaml). In this way we have a record of hyperparameters, model architecture, and data settings. Secondly, we set a fixed random seed (seed: 42) at the beginning of training using `torch.manual_seed()`, which ensured consistent initialization across all runs. Thirdly, we use Weights & Biases (W&B) to log all experiments with hyperparameters and training metrics. Lastly, we use DVC to version control our dataset, so the exact same 75,000 images can be retrieved for any experiment using `dvc pull`. To reproduce an experiment, one would pull the specific data version with DVC, run the same command (e.g., `python src/train.py experiment=cnn`), and W&B would show the exact same training progression with identical hyperparameters and metrics.
 
 ### Question 14
 
