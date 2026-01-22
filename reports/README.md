@@ -231,7 +231,7 @@ We used Ruff for linting and formatting. We also used Python type hints (typing 
 >
 > Answer:
 
-In total we have implemented X tests. We test the dataloading pipeline by performing four unit tests that validate both structure and content of the loaded data. Additionally we perform four test on the CNN model to verify initialization, output of forward pass and execution of training and validation. ....
+In total we have implemented 12 tests. We test the dataloading pipeline by performing four unit tests that validate both structure and content of the loaded data (testing dataset instantiation and data loader creation for train, validation, and test splits). Additionally we perform four test on the CNN model to verify initialization, output of forward pass and execution of training and validation steps. We also implemented four API tests that verify the health endpoint, prediction functionality, handling of invalid file types and load testing.
 
 ### Question 8
 
