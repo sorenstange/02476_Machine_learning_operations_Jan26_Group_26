@@ -524,7 +524,7 @@ We also added a simple load test. This test sends 50 requests to the predict rou
 >
 > Answer:
 
---- question 26 fill here ---
+We did not fully manage to deploy monitoring for the deployed model. While a monitoring solution for data drift detection was designed and containerized, the monitoring API could not be successfully deployed to Cloud Run due to errors we did not figure out in time. The planned monitoring approach was to compare reference data from the training distribution with current inference data using summary statistics. By monitoring changes in features such as image brightness, image contrast, model confidence, and predicted class distribution, the system would be able to detect data drift over time. Monitoring would help improve the longevity of the application by identifying when the input data changes compared to the training data. Early detection of data drift would make it possible to retrain or update the model before prediction performance degrades, leading to a more robust and reliable system.
 
 ## Overall discussion of project
 
