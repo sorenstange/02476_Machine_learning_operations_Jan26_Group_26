@@ -396,7 +396,7 @@ Profiling helped us identify unnecessary overhead in our code. For example, in t
 >
 > Answer:
 
---- question 17 fill here ---
+In this project, we used Cloud Run to deploy the machine learning inference API. Artifact Registry was used to store Docker images for the deployed services. Cloud Storage was used to store the trained model checkpoint files for both the CNN and ResNet models, which were trained in the cloud and later used by the deployed API. BigQuery was used to store structured data for monitoring and comparing reference and current data distributions for data drift detection.
 
 ### Question 18
 
@@ -488,7 +488,9 @@ Yes, we successfully wrote an API for our model using FastAPI. The trained model
 >
 > Answer:
 
---- question 24 fill here ---
+Yes, we successfully deployed our machine learning API both locally and in the cloud. The trained models were wrapped in a FastAPI application that exposes a prediction endpoint for image classification. We first verified the API locally by running it with Uvicorn and testing predictions using HTTP requests. For cloud deployment, the application was containerized using Docker and the resulting image was pushed to Google Artifact Registry. The service was then deployed on Google Cloud Run. The deployed service downloads the trained model checkpoint from Google Cloud Storage at startup. The API can be invoked through its public Cloud Run URL. 
+FastAPI’s interactive documentation is available at: https://rice-api-879116891440.europe-north2.run.app/docs
+Predictions can be made by sending an image file to the /predict endpoint, for example: curl -X POST -F "file=@image.jpg" https://rice-api-879116891440.europe-north2.run.app/predict/
 
 ### Question 25
 
