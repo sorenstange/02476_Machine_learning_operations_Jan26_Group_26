@@ -423,7 +423,7 @@ We used Google Cloud Platform's Compute Engine through Vertex AI Custom Jobs to 
 
 ![bucket1](figures/bucket1.png)
 
-![bucket2](figures/bucket2.png)
+![bucket2](figures/buckcet2.png)
 
 ### Question 20
 
