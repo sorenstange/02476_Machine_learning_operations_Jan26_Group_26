@@ -276,7 +276,8 @@ We made use of both branches and pull requests in our project. Each group member
 >
 > Answer:
 
-We did make use of DVC in the following way: We managed our dataset by initializing DVC in our repository, added the data folder as DVC-tracked dataset and pushed it to ... In this way we could version control our data independently from the code. This helped us ensure reproducebility of experiments as the exact datset could be used for givn model training. It also helped us to be multiple people working on the same data. ...
+We did make use of DVC in the following way: We managed our dataset by initializing DVC in our repository and configured it to use Google Cloud Storage (gs://mlops-s204229/) as a remote. We tracked the data folder by running `dvc add data` which created the data.dvc file, and pushed it to the GCS remote. This allowed us to version control our data independently from the code stored in Git. In the end it helped us in ensuring reproducibilit, as the exact dataset could be pulled and used for any given model training. It also helped us to be multiple team members working on the same data without coordinating and team members could easily sync to the same data version using DVC.
+
 
 
 ### Question 11
