@@ -211,8 +211,7 @@ From the cookiecutter template we have filled out the tests , src, models and re
 >
 > Answer:
 
-We used ... for linting and ... for formatting. We also used ... for typing and ... for documentation. These concepts are important in larger projects because when multiple people work on the same code consistent formatting and documentation reduce unnecessary confusion and misunderstandings. Documentation also adds to effectivity, since clear documentation can help other team members to understand functions without reviewing every line of code. For example, typing ...
-
+We used Ruff for linting and formatting. We also used Python type hints (typing module) for typing and docstrings for documentation. These concepts are important in larger projects because when multiple people work on the same code consistent formatting and documentation reduce unnecessary confusion and misunderstandings. Documentation also adds to effectivity, since clear documentation can help other team members to understand functions without reviewing every line of code. For example, typing with Python type hints allows team members to see what data types a function are respecting and what they return. Additionally, Ruff enforces consistent code style to ensure that team members are aligned. 
 
 
 ## Version control
