@@ -397,7 +397,7 @@ Profiling helped us identify unnecessary overhead in our code. For example, in t
 >
 > Answer:
 
-In this project, we used Cloud Run to deploy the machine learning inference API. Artifact Registry was used to store Docker images for the deployed services. Cloud Storage was used to store the trained model checkpoint files for both the CNN and ResNet models, which were trained in the cloud and later used by the deployed API. BigQuery was used to store structured data for monitoring and comparing reference and current data distributions for data drift detection.
+In this project, we used Cloud Run to deploy the machine learning inference API. Artifact Registry was used to store Docker images for the deployed services. Cloud Storage was used to store the trained model checkpoint files for both the CNN and ResNet models, which were trained in the cloud and later used by the deployed API. 
 
 ### Question 18
 
