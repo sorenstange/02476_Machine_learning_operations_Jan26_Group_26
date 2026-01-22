@@ -314,7 +314,7 @@ We did make use of DVC in the following way: We managed our dataset by initializ
 >
 > Answer:
 
---- question 12 fill here ---
+We used Hydra for managing experiment configurations through config files. In our setup we use a hierarchical structure with main `config.yaml` file that contains default parameters for data and training, and experiment-specific configs in the `configs/experiment/` folder (cnn.yaml for our CNN model and resnet.yaml for the ResNet model). To run experiments, we execute: `python src/train.py experiment=cnn` to train the CNN model or `python src/train.py experiment=resnet` for the ResNet model. We can override specific parameters on the command line, e.g. `python src/train.py experiment=cnn training_parameters.learning_rate=0.001 training_parameters.epochs=30` to adjust learning rate and/or epochs for a run.
 
 ### Question 13
 
