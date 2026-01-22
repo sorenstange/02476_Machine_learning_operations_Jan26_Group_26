@@ -361,7 +361,8 @@ We made use of multiple reproducibility mechanisms: Firstly we used Hydra to man
 >
 > Answer:
 
-For our project we developed several images: one for training our custom CNN model, one for training the ResNet model, one for API deployment, and one for drift detection. To run the training Docker images locally, one would execute: `docker build -f cnn.dockerfile -t rice-trainer-cnn . && docker run --gpus all rice-trainer-cnn experiment=cnn`. For the API: `docker build -f Dockerfile -t rice-api . && docker run -p 8080:8080 rice-api`. 
+For our project we developed several images: one for training our custom CNN model, one for training the ResNet model, one for API deployment, and one for drift detection. To run the training Docker images locally, one would execute: `docker build -f cnn.dockerfile -t rice-trainer-cnn . && docker run --gpus all rice-trainer-cnn experiment=cnn`. For the API: `docker build -f Dockerfile -t rice-api . && docker run -p 8080:8080 rice-api`. Link to CNN dockerfile: [cnn.dockerfile](https://github.com/sorenstange/02476_Machine_learning_operations_Jan26_Group_26/blob/main/cnn.dockerfile).
+
 
 
 ### Question 16
