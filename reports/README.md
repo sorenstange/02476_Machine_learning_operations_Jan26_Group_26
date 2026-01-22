@@ -541,7 +541,9 @@ We also added a simple load test. This test sends 50 requests to the predict rou
 >
 > Answer:
 
---- question 27 fill here ---
+![build_history](figures/billing_report.png)
+We could not see how much was used by each member, since we all worked in a single cloud project, but we could see that we ended up using around 6 dollars in credits, where most of them were being used on the artefact registry. It was frustrating to work in the cloud because a lot of time is spent on uploading the Docker image, so if we run into errors in the cloud, we have to do the changes locally, update and make a new docker and upload that image, which for the api took around 1 hour between each update of the files. but the rewarding feeling from having the api up and running through the cloud was big.
+
 
 ### Question 28
 
@@ -588,7 +590,7 @@ We also added a simple load test. This test sends 50 requests to the predict rou
 >
 > Answer:
 
---- question 30 fill here ---
+The biggest obstacle was using GCP. it is much easier to just work locally and fix minor changes, but when working with the cloud, there is a whole new layer to everything that can go wrong. And the uploading takes a lot of time, which was quite demotivating. ChatGPT was used to overcome most of these things, especially the proper commands to run in the terminal, and the Google GEMINI incorporated in the Google Cloud was a big help for getting important information about the occurent errors so we could debug them. Otherwise, most other parts of the project worked fairly well. It was good that we did not have to use too much time to fidel around with hyperparameters since the dataset was so easy for the model to get a high accuracy on it early on. 
 
 ### Question 31
 
@@ -606,4 +608,8 @@ We also added a simple load test. This test sends 50 requests to the predict rou
 > *We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.*
 > Answer:
 
---- question 31 fill here ---
+Student s204206 was in charge of setting up the api and deploying it in the cloud and developing
+Student s204229 was in charge of training our models in the cloud and deploying them afterwards.
+Student sXXXXXX was in charge of training our models in the cloud and deploying them afterwards.
+All members contributed by following along in the excercises and helping eachother to move on with the different tasks. The cookiecutter template was easy to get working in the repository so we all had a part in that,
+We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.
