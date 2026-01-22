@@ -211,8 +211,7 @@ From the cookiecutter template we have filled out the tests , src, models and re
 >
 > Answer:
 
-We used ... for linting and ... for formatting. We also used ... for typing and ... for documentation. These concepts are important in larger projects because when multiple people work on the same code consistent formatting and documentation reduce unnecessary confusion and misunderstandings. Documentation also adds to effectivity, since clear documentation can help other team members to understand functions without reviewing every line of code. For example, typing ...
-
+We used Ruff for linting and formatting. We also used Python type hints (typing module) for typing and docstrings for documentation. These concepts are important in larger projects because when multiple people work on the same code consistent formatting and documentation reduce unnecessary confusion and misunderstandings. Documentation also adds to effectivity, since clear documentation can help other team members to understand functions without reviewing every line of code. For example, typing with Python type hints allows team members to see what data types a function are respecting and what they return. Additionally, Ruff enforces consistent code style to ensure that team members are aligned. 
 
 
 ## Version control
@@ -232,7 +231,7 @@ We used ... for linting and ... for formatting. We also used ... for typing and 
 >
 > Answer:
 
-In total we have implemented X tests. We test the dataloading pipeline by performing four unit tests that validate both structure and content of the loaded data. Additionally we perform four test on the CNN model to verify initialization, output of forward pass and execution of training and validation. ....
+In total we have implemented 12 tests. We test the dataloading pipeline by performing four unit tests that validate both structure and content of the loaded data (testing dataset instantiation and data loader creation for train, validation, and test splits). Additionally we perform four test on the CNN model to verify initialization, output of forward pass and execution of training and validation steps. We also implemented four API tests that verify the health endpoint, prediction functionality, handling of invalid file types and load testing.
 
 ### Question 8
 
@@ -247,8 +246,7 @@ In total we have implemented X tests. We test the dataloading pipeline by perfor
 >
 > Answer:
 
-The total code coverage of our code is ..... If our code had a code coverage of 100% or close to we could still not trust it to be error free. This is because the code coverage is a measure of the amount of lines of code are run during the test. Therefore there can still be meaningful scenarios (input scenarios, unexpected situations or other edge cases) that are not included in the test, and which would result in an error. Therefore in addition to the code coverage other testing would be advisable in order to test the code. 
-
+The total code coverage of our code is 57%. 77% in the api.py, 42% in the data.py and 58% in the model.py. If our code had a code coverage of 100% or close to we could still not trust it to be error free. This is because the code coverage is a measure of the amount of lines of code are run during the test. Therefore there can still be meaningful scenarios (input scenarios, unexpected situations or other edge cases) that are not included in the test, and which would result in an error. Therefore in addition to the code coverage other testing would be advisable in order to test the code. 
 
 ### Question 9
 
@@ -278,7 +276,8 @@ We made use of both branches and pull requests in our project. Each group member
 >
 > Answer:
 
-We did make use of DVC in the following way: We managed our dataset by initializing DVC in our repository, added the data folder as DVC-tracked dataset and pushed it to ... In this way we could version control our data independently from the code. This helped us ensure reproducebility of experiments as the exact datset could be used for givn model training. It also helped us to be multiple people working on the same data. ...
+We did make use of DVC in the following way: We managed our dataset by initializing DVC in our repository and configured it to use Google Cloud Storage (gs://mlops-s204229/) as a remote. We tracked the data folder by running `dvc add data` which created the data.dvc file, and pushed it to the GCS remote. This allowed us to version control our data independently from the code stored in Git. In the end it helped us in ensuring reproducibilit, as the exact dataset could be pulled and used for any given model training. It also helped us to be multiple team members working on the same data without coordinating and team members could easily sync to the same data version using DVC.
+
 
 
 ### Question 11
@@ -315,7 +314,7 @@ We did make use of DVC in the following way: We managed our dataset by initializ
 >
 > Answer:
 
---- question 12 fill here ---
+We used Hydra for managing experiment configurations through config files. In our setup we use a hierarchical structure with main `config.yaml` file that contains default parameters for data and training, and experiment-specific configs in the `configs/experiment/` folder (cnn.yaml for our CNN model and resnet.yaml for the ResNet model). To run experiments, we execute: `python src/train.py experiment=cnn` to train the CNN model or `python src/train.py experiment=resnet` for the ResNet model. We can override specific parameters on the command line, e.g. `python src/train.py experiment=cnn training_parameters.learning_rate=0.001 training_parameters.epochs=30` to adjust learning rate and/or epochs for a run.
 
 ### Question 13
 
