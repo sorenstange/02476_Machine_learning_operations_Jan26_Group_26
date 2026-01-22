@@ -578,7 +578,10 @@ No, we did not do any of the extra parts, we had enough of a challenge and succe
 >
 > Answer:
 
---- question 29 fill here ---
+![q29](figures/q29.png)
+
+The starting point of the diagram is the developers that are locally working on the code, here experiments are designed, configured, and tested. During development, tools such as Weights & Biases (W&B) and Hydra are integrated into the codebase to manage experiment tracking and configuration. Here the api service is also tested to work locally. Once the code is ready, the developer commits the changes and pushes them to GitHub. This action automatically triggers a continuous integration pipeline using GitHub Actions. In this pipeline, the code is first tested to ensure correctness and stability, and code coverage checks are performed. If everything passes in the test then we can begin then the developer can get some of the code up and going in the cloud. A dockerfile is created to get an exact docker image of the code running on the developers computer. This docker image can then be pushed into the GCP registry. Once the image is in the registry, the api can then be deployed as a hhtp service for other users to interact. In here they can upload their own images, which are converted to the correct format for the model to classify it as 1 of 5 types of rice grain. An outside user can also clone the whole GitHub repository if they wish to make their own tweaks to the program.
+
 
 ### Question 30
 
