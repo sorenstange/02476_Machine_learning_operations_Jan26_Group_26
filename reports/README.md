@@ -247,7 +247,16 @@ In total we have implemented X tests. We test the dataloading pipeline by perfor
 >
 > Answer:
 
-The total code coverage of our code is ..... If our code had a code coverage of 100% or close to we could still not trust it to be error free. This is because the code coverage is a measure of the amount of lines of code are run during the test. Therefore there can still be meaningful scenarios (input scenarios, unexpected situations or other edge cases) that are not included in the test, and which would result in an error. Therefore in addition to the code coverage other testing would be advisable in order to test the code. 
+The total code coverage of our code is 57% If our code had a code coverage of 100% or close to we could still not trust it to be error free. This is because the code coverage is a measure of the amount of lines of code are run during the test. Therefore there can still be meaningful scenarios (input scenarios, unexpected situations or other edge cases) that are not included in the test, and which would result in an error. Therefore in addition to the code coverage other testing would be advisable in order to test the code. 
+
+Name              Stmts   Miss  Cover   Missing
+-----------------------------------------------
+src\__init__.py       0      0   100%
+src\api.py           73     17    77%   40-49, 55-56, 68-70, 95, 106-107, 131-132
+src\data.py         107     62    42%   31, 42, 47, 60, 68-75, 78-160, 206
+src\model.py        124     52    58%   86-87, 92-105, 108, 111-119, 122-129, 133-134, 139-160, 163-171, 182-192, 195
+-----------------------------------------------
+TOTAL               304    131    57%
 
 
 ### Question 9
