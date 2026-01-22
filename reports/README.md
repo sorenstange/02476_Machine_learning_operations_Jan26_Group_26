@@ -611,6 +611,6 @@ The biggest obstacle was using GCP. it is much easier to just work locally and f
 
 Student s204206 was in charge of setting up the api and deploying it in the cloud and developing
 Student s204229 was in charge of training our models in the cloud and deploying them afterwards.
-Student sXXXXXX was in charge of training our models in the cloud and deploying them afterwards.
+Student 204248 was in charge of training our models in the cloud and deploying them afterwards.
 All members contributed by following along in the excercises and helping eachother to move on with the different tasks. The cookiecutter template was easy to get working in the repository so we all had a part in that,
 We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.
