@@ -196,7 +196,7 @@ If a new team member were to join our project, they would simply have to create 
 >
 > Answer:
 
-From the cookiecutter template we have filled out the tests , src, models and reports folder. We have removed the ... folder because we did not use any ... in our project. In the data folder we simply made 3 folders that was a train, validation and training folder instead of having the raw and preprocessed folder. In this data folder, the raw data from Rice_Image_Dataset was preproccesed and split into these 3 folders. We have added a ... folder that contains ... to do ....
+From the cookiecutter template we have filled out the src, tests, data, models and reports folders. We have filled out the scripts in the src folder with the files api.py, data.py, evaluate.py, models.py, train.py. In the data folder we simply made 3 folders that was a train, validation and training folder instead of having the raw and preprocessed folder. In this data folder, the raw data from Rice_Image_Dataset was preproccesed and split into these 3 folders. The overall structure of the project that the src folder is where everything happens, the data proccessing, our model structures, our training script and out api. a lot of these scripts are made to be initialized using the tasks script that works woth invoke. we dont have a specifik docker folder for the docker files but instead have let them "swim" freely in the root of our project which somewhat deviates with the original structure wanting a docker file folder to have it more organized.
 
 ### Question 6
 
