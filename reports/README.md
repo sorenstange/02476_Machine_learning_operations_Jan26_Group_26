@@ -610,8 +610,8 @@ The biggest obstacle was using GCP. it is much easier to just work locally and f
 > *We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.*
 > Answer:
 
-Student s204206 was in charge of setting up the api and deploying it in the cloud and developing
-Student s204229 was in charge of training our models in the cloud and deploying them afterwards.
-Student 204248 was in charge of training our models in the cloud and deploying them afterwards.
-All members contributed by following along in the excercises and helping eachother to move on with the different tasks. The cookiecutter template was easy to get working in the repository so we all had a part in that,
-We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.
+Student s204206 was in charge of setting up the api and deploying it in the cloud.
+Student s204229 was in charge of training our models in the cloud and saving the models in the bucket.
+Student 204248 made the initial dockerfiles that would later be used for the training and deployment.
+All members contributed by following along in the excercises and helping eachother to move on with the different tasks. The cookiecutter template was easy to get working in the repository so we all had a part in that, a lot of the model, data and training scripts was worked out in unisync.
+We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code. and a bit of google gemini to get help with cloud error messages.
