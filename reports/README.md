@@ -347,6 +347,10 @@ We made use of multiple reproducibility mechanisms: Firstly we used Hydra to man
 > Answer:
 
 --- question 14 fill here ---
+[wandb](figures/wandb.png)
+In the figure we can see the two training runs we made, one for our custom CNN model and one for the pre-trained Resnet18 model (which itself also is a CNN with special residual connections between layers). We track both the training loss and training accuracy, as well as the validation loss and validation accuracy over the specified amount of epochs (20 epochs).
+
+From the training procedure we see how much better the Resnet18 model immidiatly is compared to our custom CNN model. This is due to the fact that Resnet18 comes with pre trained model parameters wheras our custom model, simply has a random initialization. So eventhough the Resnet18 model has never seen our training data before, then it has already learned some high level abstract feautres related to images, which it uses to immidieatly get a very imppressive validation accuracy.
 
 ### Question 15
 
@@ -363,6 +367,7 @@ We made use of multiple reproducibility mechanisms: Firstly we used Hydra to man
 
 For our project we developed several images: one for training our custom CNN model, one for training the ResNet model, one for API deployment, and one for drift detection. This ensures reproducibility and allows team members to run experiments without local environment concerns. To run the training Docker images locally, one would execute: `docker build -f cnn.dockerfile -t rice-trainer-cnn . && docker run --gpus all rice-trainer-cnn experiment=cnn`. For the API: `docker build -f Dockerfile -t rice-api . && docker run -p 8080:8080 rice-api`. Link to CNN dockerfile: [cnn.dockerfile](https://github.com/sorenstange/02476_Machine_learning_operations_Jan26_Group_26/blob/main/cnn.dockerfile).
 
+To run either of the other training jobs in the cloud, one would simply need to run `gcloud builds submit . --config=vertec_ai_train.yaml --substitutions=_VERTEX_TRAIN_CONFIG=config_._cnn.yaml` or `gcloud builds submit . --config=vertec_ai_train.yaml --substitutions=_VERTEX_TRAIN_CONFIG=config_resnet.yaml`
 
 
 ### Question 16
@@ -457,7 +462,7 @@ We used Google Cloud’s Compute Engine via Vertex AI Custom Jobs to train our d
 >
 > Answer:
 
-Yes, we managed to train two different models in the cloud using the Vertex AI module of the Google Cloud Platform. Docker images where made for each experiment (experiment 1: training our custom CNN model, experiment 2: modifying the pre trained resnet18 model from TIMM) using the cloudbuild_cnn.yaml and cloudbuild_resnet.yaml files and then running 'gcloud builds submit . --config=cloudbuild_cnn.yaml' . These docker images where then excecuted in the Vertex AI module using a custom-job. These can be executed by running 'gcloud builds submit . --config=vertex_ai_train.ayml substitutions=_VERTEX_TRAIN_CONFIG=config_cnn.yaml'. The training job is then submitted, and progress can be followed on the wandb project page.
+Yes, we managed to train two different models in the cloud using the Vertex AI module of the Google Cloud Platform. Docker images where made for each experiment (experiment 1: training our custom CNN model, experiment 2: modifying the pre trained resnet18 model from TIMM) using the cloudbuild_cnn.yaml and cloudbuild_resnet.yaml files and then running 'gcloud builds submit . --config=cloudbuild_cnn.yaml' . These docker images where then excecuted in the Vertex AI module using a custom-job. These can be executed by running 'gcloud builds submit . --config=vertex_ai_train.ayml --substitutions=_VERTEX_TRAIN_CONFIG=config_cnn.yaml'. The training job is then submitted, and progress can be followed on the wandb project page.
 
 ## Deployment
 
