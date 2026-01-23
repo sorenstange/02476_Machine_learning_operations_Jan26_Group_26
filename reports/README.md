@@ -346,8 +346,7 @@ We made use of multiple reproducibility mechanisms: Firstly we used Hydra to man
 >
 > Answer:
 
---- question 14 fill here ---
-[wandb](figures/wandb.png)
+![wandb](figures/wandb.png)
 In the figure we can see the two training runs we made, one for our custom CNN model and one for the pre-trained Resnet18 model (which itself also is a CNN with special residual connections between layers). We track both the training loss and training accuracy, as well as the validation loss and validation accuracy over the specified amount of epochs (20 epochs).
 
 From the training procedure we see how much better the Resnet18 model immidiatly is compared to our custom CNN model. This is due to the fact that Resnet18 comes with pre trained model parameters wheras our custom model, simply has a random initialization. So eventhough the Resnet18 model has never seen our training data before, then it has already learned some high level abstract feautres related to images, which it uses to immidieatly get a very imppressive validation accuracy.
