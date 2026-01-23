@@ -21,4 +21,7 @@ python-multipart
 google-cloud-storage
 evidently==0.3.2
 scikit-learn
-pandas
+pandas 
+markdown 
+pydantic 
+loguru
